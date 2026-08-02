@@ -1,0 +1,80 @@
+{
+  "id": "quiz-lesson-13",
+  "lessonId": "lesson-13",
+  "title": "Multicasting: Hot vs Cold, share, and shareReplay",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "What distinguishes a hot (multicast) Observable from a cold (unicast) one?",
+      "options": [
+        { "id": "a", "text": "A hot Observable shares one execution among all subscribers; a cold one runs the producer per subscriber" },
+        { "id": "b", "text": "A hot Observable emits synchronously; a cold one emits asynchronously" },
+        { "id": "c", "text": "A hot Observable can never complete" },
+        { "id": "d", "text": "A cold Observable cannot be subscribed to more than once" }
+      ],
+      "answer": "a",
+      "explanation": "Multicasting shares a single source execution across subscribers (hot). Cold Observables create an independent producer for each subscription."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "Does a plain `share()` replay earlier values to a subscriber that joins later?",
+      "options": [
+        { "id": "a", "text": "No — share() uses a Subject with no memory; late subscribers only see future values" },
+        { "id": "b", "text": "Yes — it always replays the entire history" },
+        { "id": "c", "text": "Yes — it replays exactly the last value" },
+        { "id": "d", "text": "Only if the source is infinite" }
+      ],
+      "answer": "a",
+      "explanation": "share() multicasts through a plain Subject, so there is no replay. To give late subscribers past values, use shareReplay(n)."
+    },
+    {
+      "id": "q3",
+      "type": "single-choice",
+      "prompt": "Why can `interval(1000).pipe(shareReplay(1))` leak in RxJS 7?",
+      "options": [
+        { "id": "a", "text": "shareReplay(1) defaults to refCount:false, so it keeps the interval subscribed even after all subscribers leave" },
+        { "id": "b", "text": "shareReplay always creates a new interval per subscriber" },
+        { "id": "c", "text": "interval is not allowed inside shareReplay" },
+        { "id": "d", "text": "shareReplay buffers every value forever" }
+      ],
+      "answer": "a",
+      "explanation": "With refCount:false (the default), shareReplay stays subscribed to the source after subscribers unsubscribe. Since interval never completes, it runs forever — a leak. Use { bufferSize: 1, refCount: true }."
+    },
+    {
+      "id": "q4",
+      "type": "single-choice",
+      "prompt": "In `source$.pipe(expensive(), shareReplay(1), map(x => x))`, which operator runs per subscriber?",
+      "options": [
+        { "id": "a", "text": "map — operators below shareReplay run per subscriber" },
+        { "id": "b", "text": "expensive — operators above shareReplay run per subscriber" },
+        { "id": "c", "text": "Both expensive and map run per subscriber" },
+        { "id": "d", "text": "Neither — everything runs once" }
+      ],
+      "answer": "a",
+      "explanation": "Everything above the multicast operator is shared (runs once); everything below it runs independently for each subscriber. So expensive() is shared and map runs per subscriber."
+    },
+    {
+      "id": "q5",
+      "type": "fill-blank",
+      "prompt": "Make an infinite source multicast safely: `shareReplay({ bufferSize: 1, refCount: ______ })`. Type the boolean value.",
+      "answer": ["true"],
+      "explanation": "refCount: true unsubscribes from the source when the subscriber count drops to zero, so an infinite source stops when nobody is listening."
+    },
+    {
+      "id": "q6",
+      "type": "multiple-choice",
+      "prompt": "Which statements are correct? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "shareReplay(1) is fine for a completing HTTP source" },
+        { "id": "b", "text": "multicast, publish, and refCount are deprecated in RxJS 7" },
+        { "id": "c", "text": "share() is reference-counted by default" },
+        { "id": "d", "text": "share() replays the last value to late subscribers" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "shareReplay(1) safely caches completing sources; the publish/multicast/refCount family is deprecated in favor of share/shareReplay; share() is refCounted by default and has NO replay."
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-12",
+  "lessonId": "lesson-12",
+  "title": "Subjects: Subject, BehaviorSubject, ReplaySubject, AsyncSubject",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "Why is a Subject both an Observable and an Observer?",
+      "options": [
+        { "id": "a", "text": "You can subscribe to it, and you can call next/error/complete on it to push values to all subscribers" },
+        { "id": "b", "text": "It converts Promises into Observables automatically" },
+        { "id": "c", "text": "It can only be subscribed to, never emitted to" },
+        { "id": "d", "text": "It runs a fresh producer for each subscriber" }
+      ],
+      "answer": "a",
+      "explanation": "A Subject is subscribable (Observable) and has next/error/complete (Observer). Pushed values multicast to every current subscriber; there is no per-subscriber producer."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "A subscriber joins a plain `Subject` AFTER two values were emitted. What does it receive?",
+      "options": [
+        { "id": "a", "text": "Nothing from before — only values emitted after it subscribed" },
+        { "id": "b", "text": "Both earlier values, replayed" },
+        { "id": "c", "text": "Only the most recent earlier value" },
+        { "id": "d", "text": "An error, because it missed values" }
+      ],
+      "answer": "a",
+      "explanation": "A plain Subject has no memory. Late subscribers only see future emissions. Use BehaviorSubject or ReplaySubject to give late subscribers past values."
+    },
+    {
+      "id": "q3",
+      "type": "single-choice",
+      "prompt": "Which Subject type requires an initial value and immediately gives new subscribers the current value?",
+      "options": [
+        { "id": "a", "text": "BehaviorSubject" },
+        { "id": "b", "text": "Subject" },
+        { "id": "c", "text": "AsyncSubject" },
+        { "id": "d", "text": "ReplaySubject" }
+      ],
+      "answer": "a",
+      "explanation": "BehaviorSubject(initial) always holds a current value, replays it on subscribe, and exposes it via .value."
+    },
+    {
+      "id": "q4",
+      "type": "single-choice",
+      "prompt": "When does an `AsyncSubject` emit a value to its subscribers?",
+      "options": [
+        { "id": "a", "text": "Only when it completes — and only its final value" },
+        { "id": "b", "text": "On every next call, like a plain Subject" },
+        { "id": "c", "text": "Immediately on subscribe, using an initial value" },
+        { "id": "d", "text": "It replays the last two values" }
+      ],
+      "answer": "a",
+      "explanation": "AsyncSubject stays silent until complete(), then delivers only the last value to all subscribers — behaving much like a Promise."
+    },
+    {
+      "id": "q5",
+      "type": "fill-blank",
+      "prompt": "To hand consumers a read-only view of a Subject (so they cannot call next on it), expose `subject.____________`. Type the method call.",
+      "answer": ["asObservable()", "asObservable"],
+      "explanation": "subject.asObservable() returns an Observable that forwards the Subject's emissions but hides next/error/complete, protecting the stream from outside pushes."
+    },
+    {
+      "id": "q6",
+      "type": "match-pair",
+      "prompt": "Match each Subject type to what a NEW subscriber receives.",
+      "pairs": [
+        { "left": "Subject", "right": "Only values emitted after it subscribes" },
+        { "left": "BehaviorSubject", "right": "The current value immediately, then future values" },
+        { "left": "ReplaySubject(2)", "right": "The last two buffered values, then future values" },
+        { "left": "AsyncSubject", "right": "Only the final value, once the subject completes" }
+      ],
+      "explanation": "Subject has no memory; BehaviorSubject replays the current value; ReplaySubject(n) replays the last n; AsyncSubject emits just the final value on completion."
+    }
+  ]
+}

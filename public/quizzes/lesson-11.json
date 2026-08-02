@@ -1,0 +1,85 @@
+{
+  "id": "quiz-lesson-11",
+  "lessonId": "lesson-11",
+  "title": "Joining Streams: merge, concat, zip, forkJoin, and race",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "Which operator behaves most like `Promise.all` — waiting for all sources to complete, then emitting each source's final value once?",
+      "options": [
+        { "id": "a", "text": "forkJoin" },
+        { "id": "b", "text": "merge" },
+        { "id": "c", "text": "zip" },
+        { "id": "d", "text": "race" }
+      ],
+      "answer": "a",
+      "explanation": "forkJoin waits for every source to complete, then emits a single array/object of the last value from each. It errors if any source errors — exactly like Promise.all."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "What happens with `concat(interval(1000), of('later'))`?",
+      "options": [
+        { "id": "a", "text": "'later' never runs, because interval never completes" },
+        { "id": "b", "text": "'later' emits immediately, before the interval" },
+        { "id": "c", "text": "Both run concurrently and interleave" },
+        { "id": "d", "text": "It errors on subscription" }
+      ],
+      "answer": "a",
+      "explanation": "concat only moves to the next source after the current one completes. interval never completes, so 'later' never starts. Use merge if order doesn't matter, or bound the interval with take."
+    },
+    {
+      "id": "q3",
+      "type": "single-choice",
+      "prompt": "How does `zip(a$, b$)` combine values?",
+      "options": [
+        { "id": "a", "text": "By index — it pairs a's n-th value with b's n-th value into a tuple" },
+        { "id": "b", "text": "By latest — it re-emits whenever either source changes" },
+        { "id": "c", "text": "By interleaving them as they arrive" },
+        { "id": "d", "text": "By taking only the first source to emit" }
+      ],
+      "answer": "a",
+      "explanation": "zip is positional: it emits [a0, b0], [a1, b1], … waiting until both have the n-th value. Surplus values from a faster source are buffered."
+    },
+    {
+      "id": "q4",
+      "type": "single-choice",
+      "prompt": "`race(a$, b$)` — b$ emits its first value before a$. What does race do?",
+      "options": [
+        { "id": "a", "text": "Mirrors b$ and unsubscribes from a$" },
+        { "id": "b", "text": "Emits values from both, interleaved" },
+        { "id": "c", "text": "Waits for both to complete then emits the last of each" },
+        { "id": "d", "text": "Mirrors a$ because it was listed first" }
+      ],
+      "answer": "a",
+      "explanation": "race picks the first source to emit (b$) as the winner, mirrors it, and cancels the losers."
+    },
+    {
+      "id": "q5",
+      "type": "multiple-choice",
+      "prompt": "Which operators require their sources to COMPLETE to behave correctly? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "forkJoin — needs every source to complete to emit at all" },
+        { "id": "b", "text": "concat — needs each source to complete before the next starts" },
+        { "id": "c", "text": "merge — emits values as they arrive regardless of completion" },
+        { "id": "d", "text": "race — needs all sources to complete before choosing a winner" }
+      ],
+      "answer": ["a", "b"],
+      "explanation": "forkJoin waits for all completions; concat depends on each source completing to advance. merge emits immediately and race decides on the first emission — neither needs completion to produce values."
+    },
+    {
+      "id": "q6",
+      "type": "match-pair",
+      "prompt": "Match each joining operator to its behaviour.",
+      "pairs": [
+        { "left": "merge", "right": "Interleave values as they arrive" },
+        { "left": "concat", "right": "Run sources one after another, in order" },
+        { "left": "zip", "right": "Pair values by index into tuples" },
+        { "left": "race", "right": "Mirror the first source to emit" }
+      ],
+      "explanation": "merge interleaves, concat sequences, zip pairs positionally, and race picks the first responder."
+    }
+  ]
+}

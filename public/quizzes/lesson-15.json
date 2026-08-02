@@ -1,0 +1,80 @@
+{
+  "id": "quiz-lesson-15",
+  "lessonId": "lesson-15",
+  "title": "Completion and Cleanup: finalize, takeUntil, and timeout",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "What does `source$.pipe(takeUntil(notifier$))` do?",
+      "options": [
+        { "id": "a", "text": "Mirrors the source until notifier$ emits its first value, then completes the source" },
+        { "id": "b", "text": "Emits only the values that notifier$ also emits" },
+        { "id": "c", "text": "Waits for notifier$ to complete before starting the source" },
+        { "id": "d", "text": "Retries the source each time notifier$ emits" }
+      ],
+      "answer": "a",
+      "explanation": "takeUntil completes (and unsubscribes) the source the moment the notifier emits — a declarative stop signal."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "On which occasions does `finalize` run its callback?",
+      "options": [
+        { "id": "a", "text": "On complete, error, AND unsubscribe" },
+        { "id": "b", "text": "Only on complete" },
+        { "id": "c", "text": "Only on error" },
+        { "id": "d", "text": "Only when the source emits its first value" }
+      ],
+      "answer": "a",
+      "explanation": "finalize is the RxJS 'finally' — it runs exactly once on every teardown path: completion, error, or unsubscription. That's why it's ideal for hiding spinners."
+    },
+    {
+      "id": "q3",
+      "type": "single-choice",
+      "prompt": "Why is `takeUntil` usually placed LAST in a pipe?",
+      "options": [
+        { "id": "a", "text": "So it governs the whole chain's teardown; operators after it could keep inner subscriptions alive and leak" },
+        { "id": "b", "text": "Because it must come before any map or filter" },
+        { "id": "c", "text": "Because it only works on the raw source" },
+        { "id": "d", "text": "Placement has no effect on behaviour" }
+      ],
+      "answer": "a",
+      "explanation": "Operators like mergeMap or combineLatest placed after takeUntil can retain inner subscriptions past the notifier. Making takeUntil last ensures the entire pipeline tears down."
+    },
+    {
+      "id": "q4",
+      "type": "single-choice",
+      "prompt": "In RxJS 7 `timeout`, what does the `each` option control?",
+      "options": [
+        { "id": "a", "text": "The maximum allowed time between consecutive emissions" },
+        { "id": "b", "text": "The time allowed for the first emission only" },
+        { "id": "c", "text": "The total lifetime of the subscription" },
+        { "id": "d", "text": "The number of retries before timing out" }
+      ],
+      "answer": "a",
+      "explanation": "`each` sets the deadline between emissions; `first` sets the deadline for the first emission. Provide `with` to fall back instead of erroring with TimeoutError."
+    },
+    {
+      "id": "q5",
+      "type": "fill-blank",
+      "prompt": "To emit a value when a source completes WITHOUT emitting anything, use `______________(fallbackValue)`. Type the operator name.",
+      "answer": ["defaultIfEmpty"],
+      "explanation": "defaultIfEmpty(value) emits `value` if the source produced nothing before completing, so downstream always gets something."
+    },
+    {
+      "id": "q6",
+      "type": "single-choice",
+      "prompt": "What is the purpose of a shared `destroy$` Subject used with `takeUntil`?",
+      "options": [
+        { "id": "a", "text": "Calling destroy$.next() once tears down every subscription that piped takeUntil(destroy$)" },
+        { "id": "b", "text": "It replays the last value to new subscribers" },
+        { "id": "c", "text": "It retries all failed streams" },
+        { "id": "d", "text": "It converts cold Observables to hot ones" }
+      ],
+      "answer": "a",
+      "explanation": "The takeUntil(destroy$) lifecycle pattern lets a single destroy$.next() complete all long-lived subscriptions at once — the standard component/service cleanup approach."
+    }
+  ]
+}

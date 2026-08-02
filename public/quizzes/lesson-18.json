@@ -1,0 +1,80 @@
+{
+  "id": "quiz-lesson-18",
+  "lessonId": "lesson-18",
+  "title": "Marble Testing with the TestScheduler",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "What does the TestScheduler give you for testing time-based streams?",
+      "options": [
+        { "id": "a", "text": "A controllable virtual clock so delays resolve instantly and deterministically" },
+        { "id": "b", "text": "Faster real timers via setInterval" },
+        { "id": "c", "text": "Automatic retries of failed assertions" },
+        { "id": "d", "text": "A way to run Observables on a web worker" }
+      ],
+      "answer": "a",
+      "explanation": "The TestScheduler runs scheduled work on virtual time, so operators like debounceTime and delay complete immediately and predictably instead of using slow, flaky real timers."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "Inside `testScheduler.run()`, how much virtual time does one frame (one marble character) represent?",
+      "options": [
+        { "id": "a", "text": "1 millisecond" },
+        { "id": "b", "text": "10 milliseconds" },
+        { "id": "c", "text": "100 milliseconds" },
+        { "id": "d", "text": "1 second" }
+      ],
+      "answer": "a",
+      "explanation": "Within run(), 1 frame = 1 ms, and each character advances the virtual clock by one frame. Use time-progression syntax like '10ms a' for larger gaps."
+    },
+    {
+      "id": "q3",
+      "type": "single-choice",
+      "prompt": "In a marble diagram, what does `#` represent?",
+      "options": [
+        { "id": "a", "text": "An error notification" },
+        { "id": "b", "text": "A completion" },
+        { "id": "c", "text": "A subscription point" },
+        { "id": "d", "text": "A grouped emission" }
+      ],
+      "answer": "a",
+      "explanation": "`#` is an error, `|` is completion, `()` groups same-frame emissions, and `^` marks a hot observable's subscription point."
+    },
+    {
+      "id": "q4",
+      "type": "single-choice",
+      "prompt": "How do you map marble letters like `a` and `b` to real emitted values?",
+      "options": [
+        { "id": "a", "text": "Pass a values object, e.g. expectObservable(x).toBe('-a-b|', { a: 1, b: 2 })" },
+        { "id": "b", "text": "You cannot; letters always emit themselves as strings only" },
+        { "id": "c", "text": "By naming them in the TestScheduler constructor" },
+        { "id": "d", "text": "By using numbers instead of letters in the marble" }
+      ],
+      "answer": "a",
+      "explanation": "A values map translates marble characters into real values. Without it, `a` emits the string 'a'."
+    },
+    {
+      "id": "q5",
+      "type": "fill-blank",
+      "prompt": "All marble helpers (cold, hot, expectObservable) must be used inside this TestScheduler method. Type its name (no parentheses).",
+      "answer": ["run"],
+      "explanation": "testScheduler.run(callback) supplies the helpers and auto-virtualises the schedulers, so time-based operators are driven by virtual time."
+    },
+    {
+      "id": "q6",
+      "type": "single-choice",
+      "prompt": "In an `expectSubscriptions` diagram, what do `^` and `!` mean?",
+      "options": [
+        { "id": "a", "text": "^ marks when the source was subscribed; ! marks when it was unsubscribed" },
+        { "id": "b", "text": "^ marks an error; ! marks a completion" },
+        { "id": "c", "text": "^ marks the first value; ! marks the last value" },
+        { "id": "d", "text": "They are ignored whitespace" }
+      ],
+      "answer": "a",
+      "explanation": "Subscription diagrams use ^ for the subscribe frame and ! for the unsubscribe frame — useful for verifying cancellation (e.g., switchMap unsubscribing a previous inner)."
+    }
+  ]
+}

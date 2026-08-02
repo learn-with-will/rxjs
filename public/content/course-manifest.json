@@ -1,0 +1,388 @@
+[
+    {
+        "id": "lesson-01",
+        "slug": "what-is-rxjs",
+        "title": "What Is RxJS? Observables and Reactive Thinking",
+        "level": "beginner",
+        "order": 1,
+        "duration": 22,
+        "file": "beginner/what-is-rxjs.md",
+        "summary": "What an Observable is, how it differs from a Promise, and why RxJS models clicks, HTTP responses, and timers as one thing: a stream of values that arrive over time.",
+        "tags": [
+            "rxjs",
+            "observable",
+            "reactive",
+            "streams",
+            "fundamentals"
+        ]
+    },
+    {
+        "id": "lesson-02",
+        "slug": "creating-observables",
+        "title": "Creating Observables",
+        "level": "beginner",
+        "order": 2,
+        "duration": 24,
+        "file": "beginner/creating-observables.md",
+        "summary": "Turn any source into a stream with RxJS's creation functions — of, from, fromEvent, interval, timer, range, EMPTY, throwError, and defer — and know which ones complete and which run forever.",
+        "tags": [
+            "rxjs",
+            "creation",
+            "of",
+            "from",
+            "fromevent",
+            "interval"
+        ]
+    },
+    {
+        "id": "lesson-03",
+        "slug": "subscribing-observers-and-subscriptions",
+        "title": "Subscribing: Observers and Subscriptions",
+        "level": "beginner",
+        "order": 3,
+        "duration": 22,
+        "file": "beginner/subscribing-observers-and-subscriptions.md",
+        "summary": "Nothing happens until you subscribe. Learn the Observer's next/error/complete callbacks, what subscribe() returns, and how to tear a subscription down with unsubscribe().",
+        "tags": [
+            "rxjs",
+            "subscribe",
+            "observer",
+            "subscription",
+            "unsubscribe"
+        ]
+    },
+    {
+        "id": "lesson-04",
+        "slug": "the-observable-lifecycle-and-contract",
+        "title": "The Observable Lifecycle and Contract",
+        "level": "beginner",
+        "order": 4,
+        "duration": 24,
+        "file": "beginner/the-observable-lifecycle-and-contract.md",
+        "summary": "The rules every Observable follows: lazy, unicast-by-default execution, the next*(error|complete)? grammar, why terminal notifications stop the stream, and how teardown runs.",
+        "tags": [
+            "rxjs",
+            "observable",
+            "contract",
+            "cold",
+            "lifecycle",
+            "teardown"
+        ]
+    },
+    {
+        "id": "lesson-05",
+        "slug": "the-pipe-function-and-operators",
+        "title": "The pipe() Function and Pipeable Operators",
+        "level": "beginner",
+        "order": 5,
+        "duration": 20,
+        "file": "beginner/the-pipe-function-and-operators.md",
+        "summary": "Operators are the heart of RxJS. Learn how pipe() composes pure, pipeable operators into a left-to-right transformation pipeline without mutating the source Observable.",
+        "tags": [
+            "rxjs",
+            "pipe",
+            "operators",
+            "composition",
+            "pipeable"
+        ]
+    },
+    {
+        "id": "lesson-06",
+        "slug": "transforming-values-map-tap-scan",
+        "title": "Transforming Values: map, tap, and scan",
+        "level": "beginner",
+        "order": 6,
+        "duration": 24,
+        "file": "beginner/transforming-values-map-tap-scan.md",
+        "summary": "Reshape each emission with map, run side effects with tap, and accumulate state across emissions with scan — the everyday transformation operators, plus how scan differs from reduce.",
+        "tags": [
+            "rxjs",
+            "map",
+            "tap",
+            "scan",
+            "reduce",
+            "transformation"
+        ]
+    },
+    {
+        "id": "lesson-07",
+        "slug": "filtering-values",
+        "title": "Filtering Values: filter, take, first, and friends",
+        "level": "beginner",
+        "order": 7,
+        "duration": 24,
+        "file": "beginner/filtering-values.md",
+        "summary": "Let through only what you want and stop when you're done: filter, take, takeWhile, takeLast, skip, first, and last — including which ones complete the stream and which throw on empty.",
+        "tags": [
+            "rxjs",
+            "filter",
+            "take",
+            "first",
+            "filtering",
+            "completion"
+        ]
+    },
+    {
+        "id": "lesson-08",
+        "slug": "time-based-operators",
+        "title": "Rate-Limiting Time: debounceTime, throttleTime, and distinctUntilChanged",
+        "level": "intermediate",
+        "order": 8,
+        "duration": 26,
+        "file": "intermediate/time-based-operators.md",
+        "summary": "Tame noisy streams like keystrokes and scroll events with debounceTime, throttleTime, auditTime, and sampleTime, and drop repeats with distinctUntilChanged.",
+        "tags": [
+            "rxjs",
+            "debouncetime",
+            "throttletime",
+            "distinctuntilchanged",
+            "time",
+            "operators"
+        ]
+    },
+    {
+        "id": "lesson-09",
+        "slug": "higher-order-observables-flattening",
+        "title": "Higher-Order Observables: mergeMap, concatMap, switchMap, exhaustMap",
+        "level": "intermediate",
+        "order": 9,
+        "duration": 32,
+        "file": "intermediate/higher-order-observables-flattening.md",
+        "summary": "When each value maps to another Observable you get a stream of streams. Master the four flattening operators — and how switchMap cancels, concatMap queues, mergeMap parallelizes, and exhaustMap ignores.",
+        "tags": [
+            "rxjs",
+            "switchmap",
+            "mergemap",
+            "concatmap",
+            "exhaustmap",
+            "higher-order"
+        ]
+    },
+    {
+        "id": "lesson-10",
+        "slug": "combining-latest-values",
+        "title": "Combining Latest Values: combineLatest and withLatestFrom",
+        "level": "intermediate",
+        "order": 10,
+        "duration": 26,
+        "file": "intermediate/combining-latest-values.md",
+        "summary": "Derive state from several streams at once. combineLatest emits when any input changes; withLatestFrom samples other streams only when the primary one fires.",
+        "tags": [
+            "rxjs",
+            "combinelatest",
+            "withlatestfrom",
+            "combination",
+            "derived-state"
+        ]
+    },
+    {
+        "id": "lesson-11",
+        "slug": "joining-streams",
+        "title": "Joining Streams: merge, concat, zip, forkJoin, and race",
+        "level": "intermediate",
+        "order": 11,
+        "duration": 28,
+        "file": "intermediate/joining-streams.md",
+        "summary": "Put streams together: merge interleaves, concat runs in sequence, zip pairs by index, forkJoin waits for all to finish, and race picks the first to emit.",
+        "tags": [
+            "rxjs",
+            "merge",
+            "concat",
+            "zip",
+            "forkjoin",
+            "race"
+        ]
+    },
+    {
+        "id": "lesson-12",
+        "slug": "subjects",
+        "title": "Subjects: Subject, BehaviorSubject, ReplaySubject, AsyncSubject",
+        "level": "intermediate",
+        "order": 12,
+        "duration": 28,
+        "file": "intermediate/subjects.md",
+        "summary": "A Subject is both an Observable and an Observer — the multicast bridge for pushing values into a stream. Learn the four Subject types and when each fits.",
+        "tags": [
+            "rxjs",
+            "subject",
+            "behaviorsubject",
+            "replaysubject",
+            "multicast"
+        ]
+    },
+    {
+        "id": "lesson-13",
+        "slug": "multicasting-hot-and-cold",
+        "title": "Multicasting: Hot vs Cold, share, and shareReplay",
+        "level": "intermediate",
+        "order": 13,
+        "duration": 30,
+        "file": "intermediate/multicasting-hot-and-cold.md",
+        "summary": "Why each subscriber to a cold Observable gets its own run, how to share one execution across many subscribers with share() and shareReplay(), and the refCount pitfall to avoid.",
+        "tags": [
+            "rxjs",
+            "hot",
+            "cold",
+            "share",
+            "sharereplay",
+            "multicast"
+        ]
+    },
+    {
+        "id": "lesson-14",
+        "slug": "error-handling",
+        "title": "Error Handling: catchError, retry, and throwError",
+        "level": "intermediate",
+        "order": 14,
+        "duration": 28,
+        "file": "intermediate/error-handling.md",
+        "summary": "Errors are terminal in RxJS. Recover with catchError, retry transient failures (with backoff), raise your own errors with throwError, and understand why a thrown error kills the stream.",
+        "tags": [
+            "rxjs",
+            "catcherror",
+            "retry",
+            "throwerror",
+            "error-handling"
+        ]
+    },
+    {
+        "id": "lesson-15",
+        "slug": "completion-and-cleanup-operators",
+        "title": "Completion and Cleanup: finalize, takeUntil, and timeout",
+        "level": "intermediate",
+        "order": 15,
+        "duration": 24,
+        "file": "intermediate/completion-and-cleanup-operators.md",
+        "summary": "Control when streams end and always clean up: complete on a signal with takeUntil, run teardown with finalize, guard slow sources with timeout, and handle empty streams with defaultIfEmpty.",
+        "tags": [
+            "rxjs",
+            "takeuntil",
+            "finalize",
+            "timeout",
+            "cleanup",
+            "completion"
+        ]
+    },
+    {
+        "id": "lesson-16",
+        "slug": "flattening-strategies-in-depth",
+        "title": "Flattening Strategies in Depth: mergeAll, concatAll, switchAll, exhaustAll",
+        "level": "advanced",
+        "order": 16,
+        "duration": 28,
+        "file": "advanced/flattening-strategies-in-depth.md",
+        "summary": "Go under the hood of flattening: the *All operators, how the *Map operators equal map + *All, concurrency limits on mergeMap/mergeAll, and how to choose the right strategy every time.",
+        "tags": [
+            "rxjs",
+            "mergeall",
+            "concatall",
+            "switchall",
+            "concurrency",
+            "higher-order"
+        ]
+    },
+    {
+        "id": "lesson-17",
+        "slug": "schedulers-and-concurrency",
+        "title": "Schedulers and Concurrency",
+        "level": "advanced",
+        "order": 17,
+        "duration": 32,
+        "file": "advanced/schedulers-and-concurrency.md",
+        "summary": "Schedulers decide when and on what context work runs. Compare asyncScheduler, asapScheduler, queueScheduler, and animationFrameScheduler, and use observeOn/subscribeOn deliberately.",
+        "tags": [
+            "rxjs",
+            "schedulers",
+            "concurrency",
+            "observeon",
+            "subscribeon",
+            "async"
+        ]
+    },
+    {
+        "id": "lesson-18",
+        "slug": "marble-testing",
+        "title": "Marble Testing with the TestScheduler",
+        "level": "advanced",
+        "order": 18,
+        "duration": 34,
+        "file": "advanced/marble-testing.md",
+        "summary": "Test time-based streams deterministically. Learn marble-diagram syntax, the TestScheduler's run() helper, and how to assert emissions and subscriptions with virtual time.",
+        "tags": [
+            "rxjs",
+            "testing",
+            "testscheduler",
+            "marbles",
+            "virtual-time"
+        ]
+    },
+    {
+        "id": "lesson-19",
+        "slug": "building-custom-operators",
+        "title": "Building Custom Operators",
+        "level": "advanced",
+        "order": 19,
+        "duration": 28,
+        "file": "advanced/building-custom-operators.md",
+        "summary": "An operator is just a function from Observable to Observable. Build reusable operators by composing existing ones with pipe(), and go lower-level with the Observable constructor when you must.",
+        "tags": [
+            "rxjs",
+            "custom-operators",
+            "operatorfunction",
+            "pipe",
+            "composition"
+        ]
+    },
+    {
+        "id": "lesson-20",
+        "slug": "buffering-windowing-grouping",
+        "title": "Buffering, Windowing, and Grouping",
+        "level": "advanced",
+        "order": 20,
+        "duration": 28,
+        "file": "advanced/buffering-windowing-grouping.md",
+        "summary": "Batch and partition streams: collect emissions with bufferTime/bufferCount, slice them into child Observables with windowing, and split by key with groupBy.",
+        "tags": [
+            "rxjs",
+            "buffer",
+            "window",
+            "groupby",
+            "batching"
+        ]
+    },
+    {
+        "id": "lesson-21",
+        "slug": "memory-management-and-anti-patterns",
+        "title": "Memory Management and Anti-Patterns",
+        "level": "advanced",
+        "order": 21,
+        "duration": 28,
+        "file": "advanced/memory-management-and-anti-patterns.md",
+        "summary": "Subscriptions that never end are leaks. Learn the takeUntil pattern, why nested subscribes are an anti-pattern, the shareReplay leak, and disciplined unsubscription strategies.",
+        "tags": [
+            "rxjs",
+            "memory-leaks",
+            "takeuntil",
+            "unsubscribe",
+            "anti-patterns"
+        ]
+    },
+    {
+        "id": "lesson-22",
+        "slug": "real-world-patterns-and-interop",
+        "title": "Real-World Patterns and Async Interop",
+        "level": "advanced",
+        "order": 22,
+        "duration": 34,
+        "file": "advanced/real-world-patterns-and-interop.md",
+        "summary": "Assemble what you've learned into production patterns — typeahead search, polling, retry-with-backoff, and caching with shareReplay — and bridge to Promises with firstValueFrom/lastValueFrom.",
+        "tags": [
+            "rxjs",
+            "patterns",
+            "typeahead",
+            "polling",
+            "firstvaluefrom",
+            "interop"
+        ]
+    }
+]

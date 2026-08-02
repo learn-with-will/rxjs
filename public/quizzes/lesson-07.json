@@ -1,0 +1,80 @@
+{
+  "id": "quiz-lesson-07",
+  "lessonId": "lesson-07",
+  "title": "Filtering Values: filter, take, first, and friends",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "What does `interval(1000).pipe(take(3))` do?",
+      "options": [
+        { "id": "a", "text": "Emits 0, 1, 2 then completes and unsubscribes from the interval" },
+        { "id": "b", "text": "Emits 0, 1, 2 but keeps the interval running forever" },
+        { "id": "c", "text": "Emits 1, 2, 3 then errors" },
+        { "id": "d", "text": "Emits nothing because interval is infinite" }
+      ],
+      "answer": "a",
+      "explanation": "take(3) emits the first three values and then completes, which tears down the interval — the standard, leak-free way to bound an infinite stream."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "You call `first()` on a stream that completes without emitting any value, and pass no default. What happens?",
+      "options": [
+        { "id": "a", "text": "The error handler fires with an EmptyError" },
+        { "id": "b", "text": "It emits undefined then completes" },
+        { "id": "c", "text": "It silently completes with no emission" },
+        { "id": "d", "text": "It waits forever for a value" }
+      ],
+      "answer": "a",
+      "explanation": "first() (and last()) throw EmptyError when the source is empty and no default is provided. Use a default, or use take(1) to complete without erroring."
+    },
+    {
+      "id": "q3",
+      "type": "single-choice",
+      "prompt": "Does `filter` complete the stream when a value fails its predicate?",
+      "options": [
+        { "id": "a", "text": "No — it just skips non-matching values; the stream completes only when the source does" },
+        { "id": "b", "text": "Yes — the first failing value completes the stream" },
+        { "id": "c", "text": "Yes — filter always completes after the first emission" },
+        { "id": "d", "text": "No — filter never completes under any condition" }
+      ],
+      "answer": "a",
+      "explanation": "filter only removes values. It passes source completion through but does not complete early. Use take/takeWhile/takeUntil to stop a stream."
+    },
+    {
+      "id": "q4",
+      "type": "multiple-choice",
+      "prompt": "Which operators complete the stream early on their own (without waiting for the source to complete)? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "take" },
+        { "id": "b", "text": "takeWhile" },
+        { "id": "c", "text": "first" },
+        { "id": "d", "text": "takeLast" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "take, takeWhile, and first complete once their condition is met. takeLast (and last) can only emit AFTER the source completes, so they never complete an infinite stream."
+    },
+    {
+      "id": "q5",
+      "type": "fill-blank",
+      "prompt": "To handle exactly one value from a possibly-empty stream WITHOUT risking an EmptyError, use this operator instead of first(). Type it with its argument, e.g. `xxxx(1)`.",
+      "answer": ["take(1)"],
+      "explanation": "take(1) emits the first value if one exists and simply completes if not — it never throws EmptyError, unlike first()."
+    },
+    {
+      "id": "q6",
+      "type": "single-choice",
+      "prompt": "`of(2, 4, 6, 7, 8).pipe(takeWhile(n => n % 2 === 0, true))` emits which values?",
+      "options": [
+        { "id": "a", "text": "2, 4, 6, 7" },
+        { "id": "b", "text": "2, 4, 6" },
+        { "id": "c", "text": "2, 4, 6, 7, 8" },
+        { "id": "d", "text": "7" }
+      ],
+      "answer": "a",
+      "explanation": "takeWhile stops at the first value failing the predicate (7). With inclusive: true it emits that boundary value 7 as well before completing, giving 2, 4, 6, 7."
+    }
+  ]
+}
