@@ -1,0 +1,14 @@
+[
+  { "id": "observables-subscriptions", "title": "Observables & Subscriptions", "blurb": "Understand lazy push streams, the Observable contract, Observers, and Subscriptions.", "order": 1 },
+  { "id": "creating-observables", "title": "Creating Observables", "blurb": "Turn values, collections, DOM events, and clocks into streams.", "order": 2 },
+  { "id": "pipes-transforming", "title": "Pipes & Transforming", "blurb": "Compose pure operators with pipe(), reshape values with map, inspect with tap, and accumulate with scan.", "order": 3 },
+  { "id": "filtering-limiting", "title": "Filtering & Limiting", "blurb": "Select matching values and bound infinite streams with filter, take, takeWhile, and first.", "order": 4 },
+  { "id": "rate-limiting-time", "title": "Rate-Limiting & Time", "blurb": "Tame noisy streams with debounceTime, throttleTime, auditTime, sampleTime, and distinctUntilChanged.", "order": 5 },
+  { "id": "flattening-higher-order", "title": "Higher-Order & Flattening", "blurb": "Flatten streams of streams with switchMap, mergeMap, concatMap, exhaustMap, and the *All operators.", "order": 6 },
+  { "id": "combining-joining", "title": "Combining & Joining", "blurb": "Combine latest state or join streams with combineLatest, withLatestFrom, merge, concat, zip, forkJoin, and race.", "order": 7 },
+  { "id": "subjects-multicasting", "title": "Subjects & Multicasting", "blurb": "Push values to many subscribers with Subjects and share executions with share and shareReplay.", "order": 8 },
+  { "id": "errors-cleanup", "title": "Error Handling & Cleanup", "blurb": "Recover with catchError, retry with backoff, and guarantee teardown with takeUntil, finalize, and timeout.", "order": 9 },
+  { "id": "schedulers-testing", "title": "Schedulers & Marble Testing", "blurb": "Control execution timing with schedulers and test streams deterministically with the TestScheduler.", "order": 10 },
+  { "id": "custom-operators-batching", "title": "Custom Operators & Batching", "blurb": "Build reusable operators and batch or partition streams with buffer, window, and groupBy.", "order": 11 },
+  { "id": "patterns-interop", "title": "Production Patterns & Interop", "blurb": "Prevent memory leaks, assemble typeahead and polling pipelines, and bridge to Promises and fetch.", "order": 12 }
+]

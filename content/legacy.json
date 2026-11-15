@@ -1,0 +1,275 @@
+[
+  {
+    "id": "lesson-01",
+    "slug": "what-is-rxjs",
+    "title": "What Is RxJS? Observables and Reactive Thinking",
+    "lessons": [
+      "what-is-an-observable",
+      "push-vs-pull-grid",
+      "observable-vs-promise",
+      "first-observable-new-observable",
+      "core-building-blocks-and-dollar-suffix"
+    ]
+  },
+  {
+    "id": "lesson-02",
+    "slug": "creating-observables",
+    "title": "Creating Observables",
+    "lessons": [
+      "of-and-from",
+      "of-vs-from-pitfall",
+      "from-event",
+      "interval-and-timer",
+      "range-creator",
+      "empty-never-and-throw-error",
+      "defer-per-subscriber"
+    ]
+  },
+  {
+    "id": "lesson-03",
+    "slug": "subscribing-observers-and-subscriptions",
+    "title": "Subscribing: Observers and Subscriptions",
+    "lessons": [
+      "observer-callbacks",
+      "ways-to-subscribe",
+      "subscription-and-unsubscribe",
+      "unsubscribe-vs-complete-pitfall",
+      "grouping-subscriptions-with-add"
+    ]
+  },
+  {
+    "id": "lesson-04",
+    "slug": "the-observable-lifecycle-and-contract",
+    "title": "The Observable Lifecycle and Contract",
+    "lessons": [
+      "observable-execution-phases",
+      "observable-contract-grammar",
+      "cold-and-unicast-by-default",
+      "post-terminal-notifications-ignored",
+      "producer-teardown-function"
+    ]
+  },
+  {
+    "id": "lesson-05",
+    "slug": "the-pipe-function-and-operators",
+    "title": "The pipe() Function and Pipeable Operators",
+    "lessons": [
+      "what-is-a-pipeable-operator",
+      "chaining-with-pipe",
+      "operators-are-pure",
+      "operator-order-matters",
+      "standalone-pipe-for-reuse",
+      "importing-operators-in-rxjs-7"
+    ]
+  },
+  {
+    "id": "lesson-06",
+    "slug": "transforming-values-map-tap-scan",
+    "title": "Transforming Values: map, tap, and scan",
+    "lessons": [
+      "map-operator",
+      "tap-for-side-effects",
+      "scan-running-accumulator",
+      "reduce-vs-scan",
+      "immutable-accumulators-and-tap-pitfalls"
+    ]
+  },
+  {
+    "id": "lesson-07",
+    "slug": "filtering-values",
+    "title": "Filtering Values: filter, take, first, and friends",
+    "lessons": [
+      "filter-operator",
+      "take-bounding-streams",
+      "take-while-and-inclusive",
+      "take-last-and-skip",
+      "first-and-last-operators",
+      "empty-error-and-take-one",
+      "which-filtering-operators-complete"
+    ]
+  },
+  {
+    "id": "lesson-08",
+    "slug": "time-based-operators",
+    "title": "Rate-Limiting Time: debounceTime, throttleTime, and distinctUntilChanged",
+    "lessons": [
+      "debounce-time",
+      "throttle-time",
+      "audit-time-and-sample-time",
+      "distinct-until-changed",
+      "distinct-until-key-changed-and-objects",
+      "debounce-vs-throttle-choice"
+    ]
+  },
+  {
+    "id": "lesson-09",
+    "slug": "higher-order-observables-flattening",
+    "title": "Higher-Order Observables: mergeMap, concatMap, switchMap, exhaustMap",
+    "lessons": [
+      "what-is-a-higher-order-observable",
+      "merge-map",
+      "concat-map",
+      "switch-map",
+      "exhaust-map",
+      "choosing-a-flattening-operator",
+      "nested-subscribe-anti-pattern"
+    ]
+  },
+  {
+    "id": "lesson-10",
+    "slug": "combining-latest-values",
+    "title": "Combining Latest Values: combineLatest and withLatestFrom",
+    "lessons": [
+      "combine-latest",
+      "combine-latest-waits-for-all-and-start-with",
+      "with-latest-from",
+      "combine-latest-vs-with-latest-from",
+      "combine-latest-object-form-and-with"
+    ]
+  },
+  {
+    "id": "lesson-11",
+    "slug": "joining-streams",
+    "title": "Joining Streams: merge, concat, zip, forkJoin, and race",
+    "lessons": [
+      "merge-and-concat",
+      "zip-pair-by-index",
+      "fork-join",
+      "race-first-wins",
+      "joining-stream-pitfalls",
+      "pipeable-with-operators"
+    ]
+  },
+  {
+    "id": "lesson-12",
+    "slug": "subjects",
+    "title": "Subjects: Subject, BehaviorSubject, ReplaySubject, AsyncSubject",
+    "lessons": [
+      "what-is-a-subject",
+      "behavior-subject",
+      "replay-subject",
+      "async-subject",
+      "protecting-subjects-with-as-observable",
+      "choosing-a-subject-variant"
+    ]
+  },
+  {
+    "id": "lesson-13",
+    "slug": "multicasting-hot-and-cold",
+    "title": "Multicasting: Hot vs Cold, share, and shareReplay",
+    "lessons": [
+      "cold-vs-hot-observables",
+      "share-operator",
+      "share-replay-for-caching",
+      "share-replay-refcount-leak",
+      "share-placement-and-deprecated-multicast"
+    ]
+  },
+  {
+    "id": "lesson-14",
+    "slug": "error-handling",
+    "title": "Error Handling: catchError, retry, and throwError",
+    "lessons": [
+      "errors-are-terminal",
+      "catch-error-recovery",
+      "retry-and-backoff",
+      "catching-errors-inside-switch-map",
+      "error-handling-pitfalls"
+    ]
+  },
+  {
+    "id": "lesson-15",
+    "slug": "completion-and-cleanup-operators",
+    "title": "Completion and Cleanup: finalize, takeUntil, and timeout",
+    "lessons": [
+      "take-until-notifier",
+      "finalize-guaranteed-cleanup",
+      "timeout-operator",
+      "default-if-empty-and-throw-if-empty",
+      "why-take-until-goes-last"
+    ]
+  },
+  {
+    "id": "lesson-16",
+    "slug": "flattening-strategies-in-depth",
+    "title": "Flattening Strategies in Depth: mergeAll, concatAll, switchAll, exhaustAll",
+    "lessons": [
+      "all-flattening-operators",
+      "map-plus-all-identity",
+      "concurrency-limits-with-merge-map",
+      "when-to-use-all-vs-map",
+      "combine-latest-all-and-zip-all"
+    ]
+  },
+  {
+    "id": "lesson-17",
+    "slug": "schedulers-and-concurrency",
+    "title": "Schedulers and Concurrency",
+    "lessons": [
+      "what-is-a-scheduler",
+      "built-in-schedulers",
+      "observe-on-vs-subscribe-on",
+      "scheduled-creation-function",
+      "animation-frame-scheduler-in-practice"
+    ]
+  },
+  {
+    "id": "lesson-18",
+    "slug": "marble-testing",
+    "title": "Marble Testing with the TestScheduler",
+    "lessons": [
+      "virtual-time-and-test-scheduler",
+      "marble-diagram-syntax",
+      "cold-hot-and-expect-observable",
+      "testing-time-based-operators",
+      "asserting-subscriptions-with-marbles",
+      "marble-testing-pitfalls"
+    ]
+  },
+  {
+    "id": "lesson-19",
+    "slug": "building-custom-operators",
+    "title": "Building Custom Operators",
+    "lessons": [
+      "operator-function-shape",
+      "composing-custom-operators-with-pipe",
+      "low-level-operators-with-new-observable",
+      "custom-operator-pitfalls"
+    ]
+  },
+  {
+    "id": "lesson-20",
+    "slug": "buffering-windowing-grouping",
+    "title": "Buffering, Windowing, and Grouping",
+    "lessons": [
+      "buffer-time-count-and-buffer",
+      "window-operators",
+      "buffer-vs-window",
+      "group-by-operator",
+      "group-by-duration-and-memory-pitfall"
+    ]
+  },
+  {
+    "id": "lesson-21",
+    "slug": "memory-management-and-anti-patterns",
+    "title": "Memory Management and Anti-Patterns",
+    "lessons": [
+      "what-causes-rxjs-memory-leaks",
+      "unsubscription-strategies",
+      "take-until-destroy-pattern",
+      "subscription-and-purity-anti-patterns"
+    ]
+  },
+  {
+    "id": "lesson-22",
+    "slug": "real-world-patterns-and-interop",
+    "title": "Real-World Patterns and Async Interop",
+    "lessons": [
+      "typeahead-search-pattern",
+      "non-overlapping-polling-pattern",
+      "first-value-from-and-last-value-from",
+      "from-fetch-and-abort",
+      "promise-interop-pitfalls"
+    ]
+  }
+]

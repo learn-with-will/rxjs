@@ -1,0 +1,3481 @@
+[
+  {
+    "id": "observables-subscriptions-01",
+    "topic": "observables-subscriptions",
+    "lesson": "what-is-an-observable",
+    "type": "single-choice",
+    "prompt": "Which description best fits an RxJS Observable?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A lazy, push-based collection of multiple values delivered over time"
+      },
+      {
+        "id": "b",
+        "text": "An eager container that resolves exactly one value"
+      },
+      {
+        "id": "c",
+        "text": "A synchronous array that you index into"
+      },
+      {
+        "id": "d",
+        "text": "A function the consumer pulls values from one at a time"
+      }
+    ],
+    "answer": "a",
+    "explanation": "An Observable is lazy (runs on subscribe), push-based (the producer decides when to emit), and can deliver many values over time before completing or erroring."
+  },
+  {
+    "id": "observables-subscriptions-02",
+    "topic": "observables-subscriptions",
+    "lesson": "push-vs-pull-grid",
+    "type": "single-choice",
+    "prompt": "In the producer/consumer grid, which cell does an Observable occupy?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Push + multiple values"
+      },
+      {
+        "id": "b",
+        "text": "Push + single value"
+      },
+      {
+        "id": "c",
+        "text": "Pull + multiple values"
+      },
+      {
+        "id": "d",
+        "text": "Pull + single value"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Observable = push + multiple. A Promise is push + single, a Function is pull + single, and an Iterator is pull + multiple."
+  },
+  {
+    "id": "observables-subscriptions-03",
+    "topic": "observables-subscriptions",
+    "lesson": "observable-vs-promise",
+    "type": "multiple-choice",
+    "prompt": "Which statements about how an Observable differs from a Promise are true? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "text": "An Observable is lazy — the producer only runs when you subscribe"
+      },
+      {
+        "id": "b",
+        "text": "An Observable can emit many values, not just one"
+      },
+      {
+        "id": "c",
+        "text": "An Observable can be cancelled with unsubscribe()"
+      },
+      {
+        "id": "d",
+        "text": "An Observable must always emit asynchronously"
+      }
+    ],
+    "answer": [
+      "a",
+      "b",
+      "c"
+    ],
+    "explanation": "Observables are lazy, multi-value, and cancellable. They can emit synchronously OR asynchronously — it is the Promise that is always async (and eager and single-value)."
+  },
+  {
+    "id": "observables-subscriptions-04",
+    "topic": "observables-subscriptions",
+    "lesson": "first-observable-new-observable",
+    "type": "single-choice",
+    "prompt": "What does calling `myObservable.subscribe(fn)` return?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A Subscription object you can later unsubscribe()"
+      },
+      {
+        "id": "b",
+        "text": "The first value the Observable emits"
+      },
+      {
+        "id": "c",
+        "text": "A Promise that resolves with all the values"
+      },
+      {
+        "id": "d",
+        "text": "The Observable itself, for chaining"
+      }
+    ],
+    "answer": "a",
+    "explanation": "subscribe() returns a Subscription representing the running execution. You read emitted values inside the next callback, and cancel via subscription.unsubscribe()."
+  },
+  {
+    "id": "observables-subscriptions-05",
+    "topic": "observables-subscriptions",
+    "lesson": "core-building-blocks-and-dollar-suffix",
+    "type": "fill-blank",
+    "prompt": "An Observable does no work until something calls this method. Type the method name (no parentheses).",
+    "answer": [
+      "subscribe"
+    ],
+    "explanation": "Observables are lazy: the producer function runs only when subscribe() is called, and each subscribe() starts a fresh execution."
+  },
+  {
+    "id": "observables-subscriptions-06",
+    "topic": "observables-subscriptions",
+    "lesson": "what-is-an-observable",
+    "type": "single-choice",
+    "prompt": "By convention, a variable holding an Observable is often named with which suffix?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A trailing $, e.g. results$"
+      },
+      {
+        "id": "b",
+        "text": "A trailing _obs, e.g. results_obs"
+      },
+      {
+        "id": "c",
+        "text": "A leading rx, e.g. rxResults"
+      },
+      {
+        "id": "d",
+        "text": "An trailing !, e.g. results!"
+      }
+    ],
+    "answer": "a",
+    "explanation": "The community convention is a trailing '$' (sometimes called Finnish notation) to signal that a value is a stream/Observable."
+  },
+  {
+    "id": "observables-subscriptions-07",
+    "topic": "observables-subscriptions",
+    "lesson": "observer-callbacks",
+    "type": "single-choice",
+    "prompt": "Which statement about `error` and `complete` is correct?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They are terminal and mutually exclusive — a stream sends at most one of them, and nothing after"
+      },
+      {
+        "id": "b",
+        "text": "A stream always sends complete, then error"
+      },
+      {
+        "id": "c",
+        "text": "Both can fire many times during a stream's life"
+      },
+      {
+        "id": "d",
+        "text": "complete fires once per emitted value"
+      }
+    ],
+    "answer": "a",
+    "explanation": "The Observable grammar is next* (error | complete)?. Only one terminal notification can occur, and no notifications follow it."
+  },
+  {
+    "id": "observables-subscriptions-08",
+    "topic": "observables-subscriptions",
+    "lesson": "ways-to-subscribe",
+    "type": "single-choice",
+    "prompt": "Does calling `subscription.unsubscribe()` trigger the observer's `complete` callback?",
+    "options": [
+      {
+        "id": "a",
+        "text": "No — unsubscribing cancels the stream and runs teardown, but does not call complete"
+      },
+      {
+        "id": "b",
+        "text": "Yes — unsubscribe always fires complete first"
+      },
+      {
+        "id": "c",
+        "text": "Only if the Observable used `of`"
+      },
+      {
+        "id": "d",
+        "text": "Yes, and it also fires error"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Cancellation is not completion. unsubscribe() runs teardown but never calls complete. Use finalize (a later lesson) for logic that must run on both."
+  },
+  {
+    "id": "observables-subscriptions-09",
+    "topic": "observables-subscriptions",
+    "lesson": "subscription-and-unsubscribe",
+    "type": "multiple-choice",
+    "prompt": "Which are valid ways to subscribe in RxJS 7? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "text": "source$.subscribe({ next, error, complete })"
+      },
+      {
+        "id": "b",
+        "text": "source$.subscribe({ next })  // partial observer"
+      },
+      {
+        "id": "c",
+        "text": "source$.subscribe((value) => console.log(value))"
+      },
+      {
+        "id": "d",
+        "text": "source$.subscribe(nextFn, errorFn, completeFn)  // positional callbacks"
+      }
+    ],
+    "answer": [
+      "a",
+      "b",
+      "c"
+    ],
+    "explanation": "A full observer, a partial observer, and a single next function are all valid. The positional-callbacks form is deprecated in RxJS 7."
+  },
+  {
+    "id": "observables-subscriptions-10",
+    "topic": "observables-subscriptions",
+    "lesson": "unsubscribe-vs-complete-pitfall",
+    "type": "ordering",
+    "prompt": "Order the events for a subscription to a stream that emits two values and then finishes successfully.",
+    "items": [
+      {
+        "id": "a",
+        "text": "subscribe() is called, starting the execution"
+      },
+      {
+        "id": "b",
+        "text": "next fires with the first value"
+      },
+      {
+        "id": "c",
+        "text": "next fires with the second value"
+      },
+      {
+        "id": "d",
+        "text": "complete fires and the subscription closes"
+      }
+    ],
+    "answer": [
+      "a",
+      "b",
+      "c",
+      "d"
+    ],
+    "explanation": "Subscribing starts the producer; values arrive via next; then a single terminal complete fires and teardown runs automatically."
+  },
+  {
+    "id": "observables-subscriptions-11",
+    "topic": "observables-subscriptions",
+    "lesson": "grouping-subscriptions-with-add",
+    "type": "fill-blank",
+    "prompt": "You have `const sub = interval(1000).subscribe(...)`. Type the method call (including parentheses) that stops it and runs teardown: `sub.____`",
+    "answer": [
+      "unsubscribe()",
+      "unsubscribe"
+    ],
+    "explanation": "sub.unsubscribe() cancels the running execution and triggers the Observable's teardown (e.g., clearing the interval)."
+  },
+  {
+    "id": "observables-subscriptions-12",
+    "topic": "observables-subscriptions",
+    "lesson": "observer-callbacks",
+    "type": "single-choice",
+    "prompt": "Why collect several subscriptions with `parent.add(childSub)`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Unsubscribing the parent unsubscribes all children in one call"
+      },
+      {
+        "id": "b",
+        "text": "It merges the streams into one Observable"
+      },
+      {
+        "id": "c",
+        "text": "It makes the children emit their values in order"
+      },
+      {
+        "id": "d",
+        "text": "It automatically calls complete on each child"
+      }
+    ],
+    "answer": "a",
+    "explanation": "A parent Subscription owns its children; parent.unsubscribe() tears down every child, so you can't forget one."
+  },
+  {
+    "id": "observables-subscriptions-13",
+    "topic": "observables-subscriptions",
+    "lesson": "observable-execution-phases",
+    "type": "single-choice",
+    "prompt": "Which sequence of notifications is allowed by the Observable contract?",
+    "options": [
+      {
+        "id": "a",
+        "text": "next, next, complete"
+      },
+      {
+        "id": "b",
+        "text": "next, complete, next"
+      },
+      {
+        "id": "c",
+        "text": "complete, error"
+      },
+      {
+        "id": "d",
+        "text": "next, error, complete"
+      }
+    ],
+    "answer": "a",
+    "explanation": "The grammar is next* (error | complete)? — any number of next values, then at most one terminal notification, with nothing after it. Only 'next, next, complete' fits."
+  },
+  {
+    "id": "observables-subscriptions-14",
+    "topic": "observables-subscriptions",
+    "lesson": "observable-contract-grammar",
+    "type": "single-choice",
+    "prompt": "You subscribe to the same cold Observable (which fetches `/api/data`) twice. How many requests fire?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Two — each subscription runs the producer independently"
+      },
+      {
+        "id": "b",
+        "text": "One — subscriptions share a single execution"
+      },
+      {
+        "id": "c",
+        "text": "Zero — Observables never run producers automatically"
+      },
+      {
+        "id": "d",
+        "text": "It depends on the network cache only"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Plain Observables are cold/unicast: each subscribe() re-runs the producer, so two subscriptions cause two requests. Sharing one execution requires multicasting."
+  },
+  {
+    "id": "observables-subscriptions-15",
+    "topic": "observables-subscriptions",
+    "lesson": "cold-and-unicast-by-default",
+    "type": "multiple-choice",
+    "prompt": "Which events cause the producer's returned teardown function to run? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "text": "The stream completes"
+      },
+      {
+        "id": "b",
+        "text": "The stream errors"
+      },
+      {
+        "id": "c",
+        "text": "The consumer calls unsubscribe()"
+      },
+      {
+        "id": "d",
+        "text": "The Observable is created but never subscribed"
+      }
+    ],
+    "answer": [
+      "a",
+      "b",
+      "c"
+    ],
+    "explanation": "Teardown runs exactly once on the first of complete, error, or unsubscribe. A never-subscribed Observable does no work at all, so there is nothing to tear down."
+  },
+  {
+    "id": "observables-subscriptions-16",
+    "topic": "observables-subscriptions",
+    "lesson": "post-terminal-notifications-ignored",
+    "type": "single-choice",
+    "prompt": "A producer calls `next(1)`, then `complete()`, then `next(2)`. What does the Observer receive?",
+    "options": [
+      {
+        "id": "a",
+        "text": "next(1) and complete — the next(2) is ignored"
+      },
+      {
+        "id": "b",
+        "text": "next(1), complete, and next(2)"
+      },
+      {
+        "id": "c",
+        "text": "An error, because next after complete is illegal"
+      },
+      {
+        "id": "d",
+        "text": "Only next(2)"
+      }
+    ],
+    "answer": "a",
+    "explanation": "After a terminal notification the subscriber is stopped and ignores further emissions. RxJS enforces the contract, so next(2) never reaches the Observer."
+  },
+  {
+    "id": "observables-subscriptions-17",
+    "topic": "observables-subscriptions",
+    "lesson": "producer-teardown-function",
+    "type": "fill-blank",
+    "prompt": "A plain Observable that runs its producer independently for every subscriber is called ______ (the one-word term contrasted with 'hot').",
+    "answer": [
+      "cold"
+    ],
+    "explanation": "Cold (unicast) Observables run the producer per subscription. Hot Observables share a single producer/execution among subscribers."
+  },
+  {
+    "id": "observables-subscriptions-18",
+    "topic": "observables-subscriptions",
+    "lesson": "observable-execution-phases",
+    "type": "single-choice",
+    "prompt": "When does the producer function passed to `new Observable(fn)` first execute?",
+    "options": [
+      {
+        "id": "a",
+        "text": "When something calls subscribe() on the Observable"
+      },
+      {
+        "id": "b",
+        "text": "Immediately when the Observable is constructed"
+      },
+      {
+        "id": "c",
+        "text": "On the next microtask after construction"
+      },
+      {
+        "id": "d",
+        "text": "Only when unsubscribe() is called"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Observables are lazy: the producer runs on subscribe(), not on construction. No subscribe means no work."
+  },
+  {
+    "id": "creating-observables-01",
+    "topic": "creating-observables",
+    "lesson": "of-and-from",
+    "type": "single-choice",
+    "prompt": "What does `from([1, 2, 3])` emit?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Three separate values: 1, then 2, then 3"
+      },
+      {
+        "id": "b",
+        "text": "One value: the array [1, 2, 3]"
+      },
+      {
+        "id": "c",
+        "text": "Nothing — arrays are not valid input to from"
+      },
+      {
+        "id": "d",
+        "text": "The array's length, 3"
+      }
+    ],
+    "answer": "a",
+    "explanation": "from iterates its input, so an array becomes three emissions. To emit the array itself as a single value you would use of([1, 2, 3])."
+  },
+  {
+    "id": "creating-observables-02",
+    "topic": "creating-observables",
+    "lesson": "of-vs-from-pitfall",
+    "type": "single-choice",
+    "prompt": "How do `timer(2000)` and `timer(2000, 1000)` differ?",
+    "options": [
+      {
+        "id": "a",
+        "text": "timer(2000) emits 0 once after 2s then completes; timer(2000, 1000) emits 0 after 2s then 1,2,3… every 1s forever"
+      },
+      {
+        "id": "b",
+        "text": "They are identical"
+      },
+      {
+        "id": "c",
+        "text": "timer(2000) emits every 2s; timer(2000, 1000) emits every 1000s"
+      },
+      {
+        "id": "d",
+        "text": "timer(2000) errors because it needs two arguments"
+      }
+    ],
+    "answer": "a",
+    "explanation": "A single-argument timer emits 0 after the due time and completes. Adding a period makes it repeat (1, 2, 3, …) on that interval and never complete."
+  },
+  {
+    "id": "creating-observables-03",
+    "topic": "creating-observables",
+    "lesson": "from-event",
+    "type": "multiple-choice",
+    "prompt": "Which of these creation sources do NOT complete on their own? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "text": "fromEvent(document, 'click')"
+      },
+      {
+        "id": "b",
+        "text": "interval(1000)"
+      },
+      {
+        "id": "c",
+        "text": "of(1, 2, 3)"
+      },
+      {
+        "id": "d",
+        "text": "range(0, 5)"
+      }
+    ],
+    "answer": [
+      "a",
+      "b"
+    ],
+    "explanation": "fromEvent and interval are open-ended and never self-complete — you must unsubscribe or use a completing operator. of and range emit their values and then complete."
+  },
+  {
+    "id": "creating-observables-04",
+    "topic": "creating-observables",
+    "lesson": "interval-and-timer",
+    "type": "single-choice",
+    "prompt": "What does `range(5, 3)` emit before completing?",
+    "options": [
+      {
+        "id": "a",
+        "text": "5, 6, 7"
+      },
+      {
+        "id": "b",
+        "text": "5, 6, 7, 8, 9, 10 (up to 3 more each step)"
+      },
+      {
+        "id": "c",
+        "text": "3, 4, 5"
+      },
+      {
+        "id": "d",
+        "text": "5, 8 (start plus count)"
+      }
+    ],
+    "answer": "a",
+    "explanation": "range(start, count) emits `count` integers starting at `start`. So range(5, 3) emits 5, 6, 7 — the second argument is a count, not an end value."
+  },
+  {
+    "id": "creating-observables-05",
+    "topic": "creating-observables",
+    "lesson": "range-creator",
+    "type": "fill-blank",
+    "prompt": "In RxJS 7, complete this so it errors immediately: `throwError(() => new Error('x'))`. The argument you pass to throwError is called an error ______ (one word).",
+    "answer": [
+      "factory"
+    ],
+    "explanation": "RxJS 7 expects an error factory — a function that returns the error — so `throwError(() => new Error('x'))`. Passing the error directly is the deprecated form."
+  },
+  {
+    "id": "creating-observables-06",
+    "topic": "creating-observables",
+    "lesson": "empty-never-and-throw-error",
+    "type": "match-pair",
+    "prompt": "Match each creation function to what it produces.",
+    "pairs": [
+      {
+        "left": "of(1, 2)",
+        "right": "Emits 1 then 2, then completes"
+      },
+      {
+        "left": "EMPTY",
+        "right": "Completes immediately with no values"
+      },
+      {
+        "left": "interval(1000)",
+        "right": "0, 1, 2, … every second, never completes"
+      },
+      {
+        "left": "defer(factory)",
+        "right": "Builds a fresh Observable on each subscribe"
+      }
+    ],
+    "explanation": "of emits its arguments; EMPTY completes with nothing; interval counts up forever; defer calls its factory per subscription for a fresh source."
+  },
+  {
+    "id": "creating-observables-07",
+    "topic": "creating-observables",
+    "lesson": "range-creator",
+    "type": "single-choice",
+    "prompt": "What does `range(3, 4)` emit before completing?",
+    "options": [
+      {
+        "id": "a",
+        "text": "3, 4, 5, 6"
+      },
+      {
+        "id": "b",
+        "text": "3, 4"
+      },
+      {
+        "id": "c",
+        "text": "0, 1, 2, 3"
+      },
+      {
+        "id": "d",
+        "text": "4, 5, 6"
+      }
+    ],
+    "answer": "a",
+    "explanation": "The first argument to range(start, count) is the starting number (3) and the second argument is how many sequential integers to emit (4 items: 3, 4, 5, 6)."
+  },
+  {
+    "id": "creating-observables-08",
+    "topic": "creating-observables",
+    "lesson": "from-event",
+    "type": "single-choice",
+    "prompt": "What happens to the underlying DOM event listener when you call `unsubscribe()` on a `fromEvent(button, \"click\")` subscription?",
+    "options": [
+      {
+        "id": "a",
+        "text": "fromEvent automatically calls removeEventListener() to clean up the listener"
+      },
+      {
+        "id": "b",
+        "text": "The DOM listener stays attached until the page reloads"
+      },
+      {
+        "id": "c",
+        "text": "You must manually call button.removeEventListener() yourself"
+      },
+      {
+        "id": "d",
+        "text": "It throws an error unless take(1) was used"
+      }
+    ],
+    "answer": "a",
+    "explanation": "fromEvent wires removeEventListener into its teardown logic, so unsubscribing automatically removes the DOM listener."
+  },
+  {
+    "id": "pipes-transforming-01",
+    "topic": "pipes-transforming",
+    "lesson": "what-is-a-pipeable-operator",
+    "type": "single-choice",
+    "prompt": "What is a pipeable operator?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A function that takes a source Observable and returns a new Observable"
+      },
+      {
+        "id": "b",
+        "text": "A method patched onto the Observable prototype"
+      },
+      {
+        "id": "c",
+        "text": "A plain value emitted by an Observable"
+      },
+      {
+        "id": "d",
+        "text": "A subscription callback"
+      }
+    ],
+    "answer": "a",
+    "explanation": "A pipeable operator has the type OperatorFunction<T, R>: (source: Observable<T>) => Observable<R>. Calling a factory like map(fn) produces one."
+  },
+  {
+    "id": "pipes-transforming-02",
+    "topic": "pipes-transforming",
+    "lesson": "chaining-with-pipe",
+    "type": "single-choice",
+    "prompt": "`source$.pipe(a, b, c)` is equivalent to which expression?",
+    "options": [
+      {
+        "id": "a",
+        "text": "c(b(a(source$)))"
+      },
+      {
+        "id": "b",
+        "text": "a(b(c(source$)))"
+      },
+      {
+        "id": "c",
+        "text": "source$(a, b, c)"
+      },
+      {
+        "id": "d",
+        "text": "a(source$) + b(source$) + c(source$)"
+      }
+    ],
+    "answer": "a",
+    "explanation": "pipe applies operators left to right: a first, then b on a's output, then c on b's output — i.e. c(b(a(source)))."
+  },
+  {
+    "id": "pipes-transforming-03",
+    "topic": "pipes-transforming",
+    "lesson": "operators-are-pure",
+    "type": "single-choice",
+    "prompt": "After `const doubled$ = nums$.pipe(map(n => n * 2))`, what is true of `nums$`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "nums$ is unchanged and still emits its original values"
+      },
+      {
+        "id": "b",
+        "text": "nums$ now emits doubled values too, because pipe mutates it"
+      },
+      {
+        "id": "c",
+        "text": "nums$ can no longer be subscribed to"
+      },
+      {
+        "id": "d",
+        "text": "nums$ is converted into a Promise"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Operators are pure: pipe returns a NEW Observable (doubled$) and never mutates the source. nums$ still emits its original values and can be reused."
+  },
+  {
+    "id": "pipes-transforming-04",
+    "topic": "pipes-transforming",
+    "lesson": "operator-order-matters",
+    "type": "multiple-choice",
+    "prompt": "Which statements about operators and pipe are correct? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "text": "Nothing runs until you subscribe to the piped Observable"
+      },
+      {
+        "id": "b",
+        "text": "Operator order can change the result"
+      },
+      {
+        "id": "c",
+        "text": "The standalone pipe() composes operators into one reusable operator"
+      },
+      {
+        "id": "d",
+        "text": "You must import operators by patching the Observable prototype"
+      }
+    ],
+    "answer": [
+      "a",
+      "b",
+      "c"
+    ],
+    "explanation": "Pipes are lazy descriptions, order matters, and standalone pipe() builds reusable operators. Prototype patching is the old, removed style — modern operators are pipeable and imported by name."
+  },
+  {
+    "id": "pipes-transforming-05",
+    "topic": "pipes-transforming",
+    "lesson": "standalone-pipe-for-reuse",
+    "type": "fill-blank",
+    "prompt": "In RxJS 7.2+, complete the modern import: `import { map, filter } from '______'`",
+    "answer": [
+      "rxjs"
+    ],
+    "explanation": "Since 7.2, pipeable operators are exported from the main 'rxjs' entry point. The legacy path 'rxjs/operators' still works for older code."
+  },
+  {
+    "id": "pipes-transforming-06",
+    "topic": "pipes-transforming",
+    "lesson": "importing-operators-in-rxjs-7",
+    "type": "single-choice",
+    "prompt": "Why is it usually better to place `filter` before an expensive `map` in a pipe?",
+    "options": [
+      {
+        "id": "a",
+        "text": "So the expensive transform runs only on values that pass the filter"
+      },
+      {
+        "id": "b",
+        "text": "Because map cannot appear after filter"
+      },
+      {
+        "id": "c",
+        "text": "Because filter mutates the source first"
+      },
+      {
+        "id": "d",
+        "text": "It has no effect; order never matters"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Filtering first discards values early, so the costly map only processes survivors — avoiding wasted work."
+  },
+  {
+    "id": "pipes-transforming-07",
+    "topic": "pipes-transforming",
+    "lesson": "map-operator",
+    "type": "single-choice",
+    "prompt": "`of(1, 2, 3).pipe(scan((acc, n) => acc + n, 0))` emits which sequence?",
+    "options": [
+      {
+        "id": "a",
+        "text": "1, 3, 6"
+      },
+      {
+        "id": "b",
+        "text": "6"
+      },
+      {
+        "id": "c",
+        "text": "0, 1, 2, 3"
+      },
+      {
+        "id": "d",
+        "text": "1, 2, 3"
+      }
+    ],
+    "answer": "a",
+    "explanation": "scan emits the running accumulator after each value: 0+1=1, 1+2=3, 3+3=6. (reduce would emit only the final 6, and only on completion.)"
+  },
+  {
+    "id": "pipes-transforming-08",
+    "topic": "pipes-transforming",
+    "lesson": "tap-for-side-effects",
+    "type": "single-choice",
+    "prompt": "What effect does `tap` have on the values passing through it?",
+    "options": [
+      {
+        "id": "a",
+        "text": "None — values pass through unchanged; tap only runs side effects"
+      },
+      {
+        "id": "b",
+        "text": "It transforms each value by its return value"
+      },
+      {
+        "id": "c",
+        "text": "It filters out falsy values"
+      },
+      {
+        "id": "d",
+        "text": "It buffers values until completion"
+      }
+    ],
+    "answer": "a",
+    "explanation": "tap performs side effects (logging, analytics, DOM writes) and forwards every value untouched. To transform, use map."
+  },
+  {
+    "id": "pipes-transforming-09",
+    "topic": "pipes-transforming",
+    "lesson": "scan-running-accumulator",
+    "type": "single-choice",
+    "prompt": "Why does `interval(1000).pipe(reduce((a, n) => a + n, 0))` never emit a value?",
+    "options": [
+      {
+        "id": "a",
+        "text": "reduce emits only when the source completes, and interval never completes"
+      },
+      {
+        "id": "b",
+        "text": "reduce is not a valid operator on interval"
+      },
+      {
+        "id": "c",
+        "text": "reduce requires a seed of 1, not 0"
+      },
+      {
+        "id": "d",
+        "text": "interval emits strings, which reduce cannot add"
+      }
+    ],
+    "answer": "a",
+    "explanation": "reduce accumulates and emits a single value on completion. Since interval is infinite, completion never happens, so reduce never emits. scan would emit a running total instead."
+  },
+  {
+    "id": "pipes-transforming-10",
+    "topic": "pipes-transforming",
+    "lesson": "reduce-vs-scan",
+    "type": "multiple-choice",
+    "prompt": "Which practices keep transformation pipelines clean and predictable? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "text": "Keep map callbacks pure (no side effects)"
+      },
+      {
+        "id": "b",
+        "text": "Return a new object/array from scan instead of mutating the accumulator"
+      },
+      {
+        "id": "c",
+        "text": "Use tap for logging and analytics"
+      },
+      {
+        "id": "d",
+        "text": "Put DOM writes and logging inside map for convenience"
+      }
+    ],
+    "answer": [
+      "a",
+      "b",
+      "c"
+    ],
+    "explanation": "map should be pure, scan accumulators should be immutable, and side effects belong in tap — not in map."
+  },
+  {
+    "id": "pipes-transforming-11",
+    "topic": "pipes-transforming",
+    "lesson": "immutable-accumulators-and-tap-pitfalls",
+    "type": "fill-blank",
+    "prompt": "Complete the immutable append in scan: `scan((acc, x) => [________, x], [])` (type what goes before the comma to spread the existing array).",
+    "answer": [
+      "...acc",
+      "…acc"
+    ],
+    "explanation": "Spreading the accumulator, `[...acc, x]`, returns a new array each step instead of mutating the old one — so each emission is an independent snapshot."
+  },
+  {
+    "id": "pipes-transforming-12",
+    "topic": "pipes-transforming",
+    "lesson": "map-operator",
+    "type": "match-pair",
+    "prompt": "Match each operator to its job.",
+    "pairs": [
+      {
+        "left": "map",
+        "right": "Transform each value, one-in one-out"
+      },
+      {
+        "left": "tap",
+        "right": "Run side effects without changing values"
+      },
+      {
+        "left": "scan",
+        "right": "Emit a running accumulator every step"
+      },
+      {
+        "left": "reduce",
+        "right": "Emit one final value on completion"
+      }
+    ],
+    "explanation": "map transforms, tap observes, scan accumulates and emits each step, and reduce accumulates and emits once when the source completes."
+  },
+  {
+    "id": "filtering-limiting-01",
+    "topic": "filtering-limiting",
+    "lesson": "filter-operator",
+    "type": "single-choice",
+    "prompt": "What does `interval(1000).pipe(take(3))` do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Emits 0, 1, 2 then completes and unsubscribes from the interval"
+      },
+      {
+        "id": "b",
+        "text": "Emits 0, 1, 2 but keeps the interval running forever"
+      },
+      {
+        "id": "c",
+        "text": "Emits 1, 2, 3 then errors"
+      },
+      {
+        "id": "d",
+        "text": "Emits nothing because interval is infinite"
+      }
+    ],
+    "answer": "a",
+    "explanation": "take(3) emits the first three values and then completes, which tears down the interval — the standard, leak-free way to bound an infinite stream."
+  },
+  {
+    "id": "filtering-limiting-02",
+    "topic": "filtering-limiting",
+    "lesson": "take-bounding-streams",
+    "type": "single-choice",
+    "prompt": "You call `first()` on a stream that completes without emitting any value, and pass no default. What happens?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The error handler fires with an EmptyError"
+      },
+      {
+        "id": "b",
+        "text": "It emits undefined then completes"
+      },
+      {
+        "id": "c",
+        "text": "It silently completes with no emission"
+      },
+      {
+        "id": "d",
+        "text": "It waits forever for a value"
+      }
+    ],
+    "answer": "a",
+    "explanation": "first() (and last()) throw EmptyError when the source is empty and no default is provided. Use a default, or use take(1) to complete without erroring."
+  },
+  {
+    "id": "filtering-limiting-03",
+    "topic": "filtering-limiting",
+    "lesson": "take-while-and-inclusive",
+    "type": "single-choice",
+    "prompt": "Does `filter` complete the stream when a value fails its predicate?",
+    "options": [
+      {
+        "id": "a",
+        "text": "No — it just skips non-matching values; the stream completes only when the source does"
+      },
+      {
+        "id": "b",
+        "text": "Yes — the first failing value completes the stream"
+      },
+      {
+        "id": "c",
+        "text": "Yes — filter always completes after the first emission"
+      },
+      {
+        "id": "d",
+        "text": "No — filter never completes under any condition"
+      }
+    ],
+    "answer": "a",
+    "explanation": "filter only removes values. It passes source completion through but does not complete early. Use take/takeWhile/takeUntil to stop a stream."
+  },
+  {
+    "id": "filtering-limiting-04",
+    "topic": "filtering-limiting",
+    "lesson": "take-last-and-skip",
+    "type": "multiple-choice",
+    "prompt": "Which operators complete the stream early on their own (without waiting for the source to complete)? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "text": "take"
+      },
+      {
+        "id": "b",
+        "text": "takeWhile"
+      },
+      {
+        "id": "c",
+        "text": "first"
+      },
+      {
+        "id": "d",
+        "text": "takeLast"
+      }
+    ],
+    "answer": [
+      "a",
+      "b",
+      "c"
+    ],
+    "explanation": "take, takeWhile, and first complete once their condition is met. takeLast (and last) can only emit AFTER the source completes, so they never complete an infinite stream."
+  },
+  {
+    "id": "filtering-limiting-05",
+    "topic": "filtering-limiting",
+    "lesson": "first-and-last-operators",
+    "type": "fill-blank",
+    "prompt": "To handle exactly one value from a possibly-empty stream WITHOUT risking an EmptyError, use this operator instead of first(). Type it with its argument, e.g. `xxxx(1)`.",
+    "answer": [
+      "take(1)"
+    ],
+    "explanation": "take(1) emits the first value if one exists and simply completes if not — it never throws EmptyError, unlike first()."
+  },
+  {
+    "id": "filtering-limiting-06",
+    "topic": "filtering-limiting",
+    "lesson": "empty-error-and-take-one",
+    "type": "single-choice",
+    "prompt": "`of(2, 4, 6, 7, 8).pipe(takeWhile(n => n % 2 === 0, true))` emits which values?",
+    "options": [
+      {
+        "id": "a",
+        "text": "2, 4, 6, 7"
+      },
+      {
+        "id": "b",
+        "text": "2, 4, 6"
+      },
+      {
+        "id": "c",
+        "text": "2, 4, 6, 7, 8"
+      },
+      {
+        "id": "d",
+        "text": "7"
+      }
+    ],
+    "answer": "a",
+    "explanation": "takeWhile stops at the first value failing the predicate (7). With inclusive: true it emits that boundary value 7 as well before completing, giving 2, 4, 6, 7."
+  },
+  {
+    "id": "filtering-limiting-07",
+    "topic": "filtering-limiting",
+    "lesson": "take-while-and-inclusive",
+    "type": "single-choice",
+    "prompt": "In `of(1, 2, 3, 4, 1).pipe(takeWhile(n => n < 3, true))`, what does the second argument `true` (the `inclusive` flag) do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Emits the failing value (3) that broke the predicate before completing the stream"
+      },
+      {
+        "id": "b",
+        "text": "Continues checking later values and emits the final 1 as well"
+      },
+      {
+        "id": "c",
+        "text": "Throws an error when the predicate returns false"
+      },
+      {
+        "id": "d",
+        "text": "Skips the first value if it matches the predicate"
+      }
+    ],
+    "answer": "a",
+    "explanation": "When inclusive is true, takeWhile emits the first item that fails the predicate (3) as its final emission and then immediately completes."
+  },
+  {
+    "id": "filtering-limiting-08",
+    "topic": "filtering-limiting",
+    "lesson": "take-last-and-skip",
+    "type": "single-choice",
+    "prompt": "Why should you never use `takeLast(3)` on an infinite stream like `interval(1000)` without bounding it first?",
+    "options": [
+      {
+        "id": "a",
+        "text": "takeLast waits for the source to complete before emitting anything, so it will never emit on an infinite stream"
+      },
+      {
+        "id": "b",
+        "text": "takeLast buffers every single item ever emitted in memory"
+      },
+      {
+        "id": "c",
+        "text": "takeLast throws an EmptyError on infinite streams"
+      },
+      {
+        "id": "d",
+        "text": "takeLast unsubscribes immediately on frame 0"
+      }
+    ],
+    "answer": "a",
+    "explanation": "takeLast(n) cannot know which n items are the last ones until the source calls complete(), so on an infinite stream it waits forever."
+  },
+  {
+    "id": "rate-limiting-time-01",
+    "topic": "rate-limiting-time",
+    "lesson": "debounce-time",
+    "type": "single-choice",
+    "prompt": "Which operator waits for a quiet gap and then emits the latest value — ideal for detecting that a user stopped typing?",
+    "options": [
+      {
+        "id": "a",
+        "text": "debounceTime"
+      },
+      {
+        "id": "b",
+        "text": "throttleTime"
+      },
+      {
+        "id": "c",
+        "text": "sampleTime"
+      },
+      {
+        "id": "d",
+        "text": "distinctUntilChanged"
+      }
+    ],
+    "answer": "a",
+    "explanation": "debounceTime holds each value until dueTime passes with no new emission, then emits the latest — the classic 'done typing' detector."
+  },
+  {
+    "id": "rate-limiting-time-02",
+    "topic": "rate-limiting-time",
+    "lesson": "throttle-time",
+    "type": "single-choice",
+    "prompt": "By default, `throttleTime(300)` emits which value of each window?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The first value (leading edge)"
+      },
+      {
+        "id": "b",
+        "text": "The last value (trailing edge)"
+      },
+      {
+        "id": "c",
+        "text": "The average of the window"
+      },
+      {
+        "id": "d",
+        "text": "Every value in the window"
+      }
+    ],
+    "answer": "a",
+    "explanation": "throttleTime defaults to { leading: true, trailing: false }, so it emits the first value of each window and ignores the rest. Enable trailing, or use auditTime, to get the latest."
+  },
+  {
+    "id": "rate-limiting-time-03",
+    "topic": "rate-limiting-time",
+    "lesson": "audit-time-and-sample-time",
+    "type": "single-choice",
+    "prompt": "Why does `distinctUntilChanged()` fail to drop `{id:1}, {id:1}` duplicates?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It compares with === by default, and two distinct object literals are never ==="
+      },
+      {
+        "id": "b",
+        "text": "It only works on numbers"
+      },
+      {
+        "id": "c",
+        "text": "It compares against all previous values, not the last one"
+      },
+      {
+        "id": "d",
+        "text": "It requires the stream to complete first"
+      }
+    ],
+    "answer": "a",
+    "explanation": "The default comparator is strict equality. Different object references are not ===, so nothing is dropped. Use a comparator or distinctUntilKeyChanged('id')."
+  },
+  {
+    "id": "rate-limiting-time-04",
+    "topic": "rate-limiting-time",
+    "lesson": "distinct-until-changed",
+    "type": "single-choice",
+    "prompt": "You need at most one scroll update per 100ms, and you want the LATEST scroll position each window. Which operator fits best?",
+    "options": [
+      {
+        "id": "a",
+        "text": "auditTime(100)"
+      },
+      {
+        "id": "b",
+        "text": "debounceTime(100)"
+      },
+      {
+        "id": "c",
+        "text": "throttleTime(100)  // default leading"
+      },
+      {
+        "id": "d",
+        "text": "distinctUntilChanged()"
+      }
+    ],
+    "answer": "a",
+    "explanation": "auditTime emits the most recent value at the end of each window (trailing edge). Leading-edge throttleTime would give the first (stale) position; debounceTime would wait for scrolling to stop entirely."
+  },
+  {
+    "id": "rate-limiting-time-05",
+    "topic": "rate-limiting-time",
+    "lesson": "distinct-until-key-changed-and-objects",
+    "type": "fill-blank",
+    "prompt": "Complete the typeahead pipeline order: `map(...) → ____________(300) → distinctUntilChanged()`. Type the operator name.",
+    "answer": [
+      "debounceTime"
+    ],
+    "explanation": "The standard recipe settles input with debounceTime, then skips unchanged values with distinctUntilChanged (before flattening into a request)."
+  },
+  {
+    "id": "rate-limiting-time-06",
+    "topic": "rate-limiting-time",
+    "lesson": "debounce-vs-throttle-choice",
+    "type": "multiple-choice",
+    "prompt": "Which statements are true? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "text": "distinctUntilChanged drops only consecutive duplicates"
+      },
+      {
+        "id": "b",
+        "text": "distinct() remembers every value it has seen, which can grow memory unbounded"
+      },
+      {
+        "id": "c",
+        "text": "Put debounceTime before an expensive request, not after"
+      },
+      {
+        "id": "d",
+        "text": "throttleTime and debounceTime are interchangeable"
+      }
+    ],
+    "answer": [
+      "a",
+      "b",
+      "c"
+    ],
+    "explanation": "distinctUntilChanged is consecutive-only; distinct keeps a Set of all values; debounce belongs early in the pipe. throttle and debounce solve different problems (rate-limit vs settle) and are not interchangeable."
+  },
+  {
+    "id": "rate-limiting-time-07",
+    "topic": "rate-limiting-time",
+    "lesson": "distinct-until-key-changed-and-objects",
+    "type": "single-choice",
+    "prompt": "Why does `distinctUntilChanged()` with no arguments fail to deduplicate consecutive emissions of `{ id: 1, name: \"Ada\" }` created as new object literals?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It compares consecutive values with === (reference equality), and two distinct object literals have different references"
+      },
+      {
+        "id": "b",
+        "text": "distinctUntilChanged only works on strings and numbers"
+      },
+      {
+        "id": "c",
+        "text": "It hashes object keys in random order"
+      },
+      {
+        "id": "d",
+        "text": "It resets its memory after every emission"
+      }
+    ],
+    "answer": "a",
+    "explanation": "By default distinctUntilChanged uses Object.is / === reference equality. For objects, use distinctUntilKeyChanged(\"id\") or pass a custom comparator (prev, curr) => prev.id === curr.id."
+  },
+  {
+    "id": "rate-limiting-time-08",
+    "topic": "rate-limiting-time",
+    "lesson": "audit-time-and-sample-time",
+    "type": "single-choice",
+    "prompt": "How does `auditTime(100)` differ from default leading-only `throttleTime(100)` when a burst of events arrives?",
+    "options": [
+      {
+        "id": "a",
+        "text": "throttleTime(100) emits the first value immediately when the window opens, whereas auditTime(100) waits 100ms and emits the latest value at the end of the window"
+      },
+      {
+        "id": "b",
+        "text": "auditTime(100) resets its 100ms timer on every emission just like debounceTime"
+      },
+      {
+        "id": "c",
+        "text": "auditTime(100) emits an array of all values collected during the 100ms window"
+      },
+      {
+        "id": "d",
+        "text": "throttleTime(100) completes the stream after 100ms"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Default throttleTime is leading-only (emits the first event at 0ms of the window), whereas auditTime starts a 100ms timer on the first event and emits the most recent value when the 100ms timer expires."
+  },
+  {
+    "id": "flattening-higher-order-01",
+    "topic": "flattening-higher-order",
+    "lesson": "what-is-a-higher-order-observable",
+    "type": "single-choice",
+    "prompt": "A new outer value arrives while the previous inner Observable is still running. Which operator CANCELS the previous inner and switches to the new one?",
+    "options": [
+      {
+        "id": "a",
+        "text": "switchMap"
+      },
+      {
+        "id": "b",
+        "text": "concatMap"
+      },
+      {
+        "id": "c",
+        "text": "mergeMap"
+      },
+      {
+        "id": "d",
+        "text": "exhaustMap"
+      }
+    ],
+    "answer": "a",
+    "explanation": "switchMap unsubscribes from the in-flight inner and subscribes to the newest one, so only the latest inner survives."
+  },
+  {
+    "id": "flattening-higher-order-02",
+    "topic": "flattening-higher-order",
+    "lesson": "merge-map",
+    "type": "single-choice",
+    "prompt": "Which operator is the right default for search-as-you-type, and why?",
+    "options": [
+      {
+        "id": "a",
+        "text": "switchMap — it cancels stale requests so old responses can't overwrite fresh ones"
+      },
+      {
+        "id": "b",
+        "text": "mergeMap — it runs all requests in parallel for speed"
+      },
+      {
+        "id": "c",
+        "text": "concatMap — it guarantees results arrive in typing order"
+      },
+      {
+        "id": "d",
+        "text": "exhaustMap — it ignores new search terms while one is loading"
+      }
+    ],
+    "answer": "a",
+    "explanation": "In search you only care about the latest term. switchMap cancels the previous request, avoiding race conditions where a slow older response clobbers a newer one."
+  },
+  {
+    "id": "flattening-higher-order-03",
+    "topic": "flattening-higher-order",
+    "lesson": "concat-map",
+    "type": "single-choice",
+    "prompt": "How is `concatMap` related to `mergeMap`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "concatMap is mergeMap with a concurrency of 1 — it queues inners and preserves order"
+      },
+      {
+        "id": "b",
+        "text": "They are identical aliases"
+      },
+      {
+        "id": "c",
+        "text": "concatMap cancels previous inners; mergeMap does not"
+      },
+      {
+        "id": "d",
+        "text": "concatMap runs inners in parallel; mergeMap runs them sequentially"
+      }
+    ],
+    "answer": "a",
+    "explanation": "concatMap subscribes to the next inner only after the current one completes — equivalent to mergeMap with concurrency 1 — so emissions stay ordered."
+  },
+  {
+    "id": "flattening-higher-order-04",
+    "topic": "flattening-higher-order",
+    "lesson": "switch-map",
+    "type": "single-choice",
+    "prompt": "For a login button, you want to ignore extra clicks while a request is in flight. Which operator fits?",
+    "options": [
+      {
+        "id": "a",
+        "text": "exhaustMap"
+      },
+      {
+        "id": "b",
+        "text": "switchMap"
+      },
+      {
+        "id": "c",
+        "text": "mergeMap"
+      },
+      {
+        "id": "d",
+        "text": "concatMap"
+      }
+    ],
+    "answer": "a",
+    "explanation": "exhaustMap ignores new outer values while an inner Observable is active — perfect for preventing duplicate submissions from rapid clicks."
+  },
+  {
+    "id": "flattening-higher-order-05",
+    "topic": "flattening-higher-order",
+    "lesson": "exhaust-map",
+    "type": "single-choice",
+    "prompt": "Why is subscribing inside another subscribe (nested subscribe) considered an anti-pattern?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It loses cancellation, composition, and error propagation and can leak subscriptions"
+      },
+      {
+        "id": "b",
+        "text": "It is a syntax error in RxJS 7"
+      },
+      {
+        "id": "c",
+        "text": "It automatically switches to mergeMap behaviour"
+      },
+      {
+        "id": "d",
+        "text": "It doubles the emission rate"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Nested subscribes break the pipeline: no automatic cancellation of inners, no error propagation, and easy leaks. A flattening operator handles all of that."
+  },
+  {
+    "id": "flattening-higher-order-06",
+    "topic": "flattening-higher-order",
+    "lesson": "choosing-a-flattening-operator",
+    "type": "match-pair",
+    "prompt": "Match each flattening operator to its overlap strategy.",
+    "pairs": [
+      {
+        "left": "mergeMap",
+        "right": "Run all inners concurrently; order not guaranteed"
+      },
+      {
+        "left": "concatMap",
+        "right": "Queue inners; run one at a time, in order"
+      },
+      {
+        "left": "switchMap",
+        "right": "Cancel the previous inner on each new value"
+      },
+      {
+        "left": "exhaustMap",
+        "right": "Ignore new values while an inner is active"
+      }
+    ],
+    "explanation": "merge = parallel, concat = sequential, switch = cancel-previous, exhaust = ignore-new. Choosing the right one is a core RxJS skill."
+  },
+  {
+    "id": "flattening-higher-order-07",
+    "topic": "flattening-higher-order",
+    "lesson": "all-flattening-operators",
+    "type": "single-choice",
+    "prompt": "Which identity is correct?",
+    "options": [
+      {
+        "id": "a",
+        "text": "mergeMap(fn) is equivalent to map(fn) followed by mergeAll()"
+      },
+      {
+        "id": "b",
+        "text": "mergeMap(fn) is equivalent to mergeAll() followed by map(fn)"
+      },
+      {
+        "id": "c",
+        "text": "mergeMap(fn) is equivalent to map(fn) followed by concatAll()"
+      },
+      {
+        "id": "d",
+        "text": "mergeMap(fn) has no relationship to mergeAll"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Each *Map operator is map (to produce inner Observables) plus the matching *All (to flatten). So mergeMap = map + mergeAll, switchMap = map + switchAll, etc."
+  },
+  {
+    "id": "flattening-higher-order-08",
+    "topic": "flattening-higher-order",
+    "lesson": "map-plus-all-identity",
+    "type": "single-choice",
+    "prompt": "What must the source of a `mergeAll()` emit?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Other Observables — it flattens a higher-order Observable"
+      },
+      {
+        "id": "b",
+        "text": "Plain numbers or strings"
+      },
+      {
+        "id": "c",
+        "text": "A single Promise"
+      },
+      {
+        "id": "d",
+        "text": "DOM events"
+      }
+    ],
+    "answer": "a",
+    "explanation": "The *All operators flatten Observable<Observable<T>>. They subscribe to inner Observables and merge their values; feeding them plain values throws."
+  },
+  {
+    "id": "flattening-higher-order-09",
+    "topic": "flattening-higher-order",
+    "lesson": "concurrency-limits-with-merge-map",
+    "type": "single-choice",
+    "prompt": "How do you cap `mergeMap` at 3 concurrent inner subscriptions?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Pass a concurrency argument: mergeMap(fn, 3)"
+      },
+      {
+        "id": "b",
+        "text": "Wrap it in take(3)"
+      },
+      {
+        "id": "c",
+        "text": "Use switchMap instead"
+      },
+      {
+        "id": "d",
+        "text": "It is not possible to limit concurrency"
+      }
+    ],
+    "answer": "a",
+    "explanation": "mergeMap(fn, concurrent) and mergeAll(concurrent) bound the number of simultaneously active inners; extra inners queue. Default is Infinity."
+  },
+  {
+    "id": "flattening-higher-order-10",
+    "topic": "flattening-higher-order",
+    "lesson": "when-to-use-all-vs-map",
+    "type": "single-choice",
+    "prompt": "`concatAll()` is equivalent to which mergeAll configuration?",
+    "options": [
+      {
+        "id": "a",
+        "text": "mergeAll(1) — concurrency of one, strictly sequential"
+      },
+      {
+        "id": "b",
+        "text": "mergeAll(Infinity)"
+      },
+      {
+        "id": "c",
+        "text": "mergeAll(0)"
+      },
+      {
+        "id": "d",
+        "text": "switchAll()"
+      }
+    ],
+    "answer": "a",
+    "explanation": "concatAll runs one inner at a time in order — exactly mergeAll with a concurrency limit of 1."
+  },
+  {
+    "id": "flattening-higher-order-11",
+    "topic": "flattening-higher-order",
+    "lesson": "combine-latest-all-and-zip-all",
+    "type": "fill-blank",
+    "prompt": "The operator `exhaust()` is deprecated. Type the current operator name that replaces it.",
+    "answer": [
+      "exhaustAll",
+      "exhaustAll()"
+    ],
+    "explanation": "exhaust() was renamed to exhaustAll() in RxJS 7. It ignores new inner Observables while one is still active."
+  },
+  {
+    "id": "flattening-higher-order-12",
+    "topic": "flattening-higher-order",
+    "lesson": "all-flattening-operators",
+    "type": "single-choice",
+    "prompt": "When is a `*All` operator (rather than a `*Map`) the natural choice?",
+    "options": [
+      {
+        "id": "a",
+        "text": "When you already hold a higher-order Observable and just need to flatten it"
+      },
+      {
+        "id": "b",
+        "text": "When you need to transform each value but not flatten"
+      },
+      {
+        "id": "c",
+        "text": "When the source emits plain values you want to map"
+      },
+      {
+        "id": "d",
+        "text": "Never — *All operators are deprecated"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Use a *All operator when the source is already Observable<Observable<T>> (e.g., a Subject of Observables). Use a *Map when you map values to inner Observables in one step."
+  },
+  {
+    "id": "combining-joining-01",
+    "topic": "combining-joining",
+    "lesson": "combine-latest",
+    "type": "single-choice",
+    "prompt": "When does `combineLatest([a$, b$])` emit its FIRST value?",
+    "options": [
+      {
+        "id": "a",
+        "text": "After both a$ and b$ have each emitted at least once"
+      },
+      {
+        "id": "b",
+        "text": "As soon as either a$ or b$ emits"
+      },
+      {
+        "id": "c",
+        "text": "Only when both a$ and b$ complete"
+      },
+      {
+        "id": "d",
+        "text": "Immediately on subscription, before any source emits"
+      }
+    ],
+    "answer": "a",
+    "explanation": "combineLatest waits until every source has produced at least one value, then emits the latest of each and re-emits on any subsequent change."
+  },
+  {
+    "id": "combining-joining-02",
+    "topic": "combining-joining",
+    "lesson": "combine-latest-waits-for-all-and-start-with",
+    "type": "single-choice",
+    "prompt": "How does `source$.pipe(withLatestFrom(other$))` behave?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It emits only when source$ emits, attaching the latest value of other$"
+      },
+      {
+        "id": "b",
+        "text": "It emits whenever either source$ or other$ emits"
+      },
+      {
+        "id": "c",
+        "text": "It emits only when other$ emits"
+      },
+      {
+        "id": "d",
+        "text": "It pairs source$ and other$ values by index"
+      }
+    ],
+    "answer": "a",
+    "explanation": "withLatestFrom is driven by the primary (piped) source; it samples the latest of the secondaries on each primary emission and ignores changes to the secondaries alone."
+  },
+  {
+    "id": "combining-joining-03",
+    "topic": "combining-joining",
+    "lesson": "with-latest-from",
+    "type": "single-choice",
+    "prompt": "One of the sources passed to combineLatest never emits. What is the effect on the output?",
+    "options": [
+      {
+        "id": "a",
+        "text": "combineLatest emits nothing at all, because it waits for every source"
+      },
+      {
+        "id": "b",
+        "text": "It emits using undefined for the silent source"
+      },
+      {
+        "id": "c",
+        "text": "It ignores the silent source entirely"
+      },
+      {
+        "id": "d",
+        "text": "It errors immediately"
+      }
+    ],
+    "answer": "a",
+    "explanation": "A single silent source blocks all output. Seed such sources with startWith (or use a BehaviorSubject) so they have an initial value."
+  },
+  {
+    "id": "combining-joining-04",
+    "topic": "combining-joining",
+    "lesson": "combine-latest-vs-with-latest-from",
+    "type": "single-choice",
+    "prompt": "Which call form of combineLatest is deprecated in RxJS 7?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The spread form combineLatest(a$, b$)"
+      },
+      {
+        "id": "b",
+        "text": "The array form combineLatest([a$, b$])"
+      },
+      {
+        "id": "c",
+        "text": "The object form combineLatest({ a: a$, b: b$ })"
+      },
+      {
+        "id": "d",
+        "text": "All forms are deprecated"
+      }
+    ],
+    "answer": "a",
+    "explanation": "The spread (multiple-argument) form is deprecated. Use the array or object form in RxJS 7."
+  },
+  {
+    "id": "combining-joining-05",
+    "topic": "combining-joining",
+    "lesson": "combine-latest-object-form-and-with",
+    "type": "fill-blank",
+    "prompt": "To make a possibly-silent source emit an initial value so combineLatest can produce output, pipe it through which operator? Type its name.",
+    "answer": [
+      "startWith"
+    ],
+    "explanation": "startWith(seed) prepends an immediate value, so combineLatest doesn't stall waiting for that source's first real emission."
+  },
+  {
+    "id": "combining-joining-06",
+    "topic": "combining-joining",
+    "lesson": "combine-latest",
+    "type": "single-choice",
+    "prompt": "You want to react ONLY when a submit button is clicked, using the current form value. Which operator is correct?",
+    "options": [
+      {
+        "id": "a",
+        "text": "withLatestFrom"
+      },
+      {
+        "id": "b",
+        "text": "combineLatest"
+      },
+      {
+        "id": "c",
+        "text": "zip"
+      },
+      {
+        "id": "d",
+        "text": "mergeMap"
+      }
+    ],
+    "answer": "a",
+    "explanation": "withLatestFrom emits only on the primary (submit) event and samples the latest form value. combineLatest would over-emit, re-firing every time the form changes."
+  },
+  {
+    "id": "combining-joining-07",
+    "topic": "combining-joining",
+    "lesson": "merge-and-concat",
+    "type": "single-choice",
+    "prompt": "Which operator behaves most like `Promise.all` — waiting for all sources to complete, then emitting each source's final value once?",
+    "options": [
+      {
+        "id": "a",
+        "text": "forkJoin"
+      },
+      {
+        "id": "b",
+        "text": "merge"
+      },
+      {
+        "id": "c",
+        "text": "zip"
+      },
+      {
+        "id": "d",
+        "text": "race"
+      }
+    ],
+    "answer": "a",
+    "explanation": "forkJoin waits for every source to complete, then emits a single array/object of the last value from each. It errors if any source errors — exactly like Promise.all."
+  },
+  {
+    "id": "combining-joining-08",
+    "topic": "combining-joining",
+    "lesson": "zip-pair-by-index",
+    "type": "single-choice",
+    "prompt": "What happens with `concat(interval(1000), of('later'))`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "'later' never runs, because interval never completes"
+      },
+      {
+        "id": "b",
+        "text": "'later' emits immediately, before the interval"
+      },
+      {
+        "id": "c",
+        "text": "Both run concurrently and interleave"
+      },
+      {
+        "id": "d",
+        "text": "It errors on subscription"
+      }
+    ],
+    "answer": "a",
+    "explanation": "concat only moves to the next source after the current one completes. interval never completes, so 'later' never starts. Use merge if order doesn't matter, or bound the interval with take."
+  },
+  {
+    "id": "combining-joining-09",
+    "topic": "combining-joining",
+    "lesson": "fork-join",
+    "type": "single-choice",
+    "prompt": "How does `zip(a$, b$)` combine values?",
+    "options": [
+      {
+        "id": "a",
+        "text": "By index — it pairs a's n-th value with b's n-th value into a tuple"
+      },
+      {
+        "id": "b",
+        "text": "By latest — it re-emits whenever either source changes"
+      },
+      {
+        "id": "c",
+        "text": "By interleaving them as they arrive"
+      },
+      {
+        "id": "d",
+        "text": "By taking only the first source to emit"
+      }
+    ],
+    "answer": "a",
+    "explanation": "zip is positional: it emits [a0, b0], [a1, b1], … waiting until both have the n-th value. Surplus values from a faster source are buffered."
+  },
+  {
+    "id": "combining-joining-10",
+    "topic": "combining-joining",
+    "lesson": "race-first-wins",
+    "type": "single-choice",
+    "prompt": "`race(a$, b$)` — b$ emits its first value before a$. What does race do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Mirrors b$ and unsubscribes from a$"
+      },
+      {
+        "id": "b",
+        "text": "Emits values from both, interleaved"
+      },
+      {
+        "id": "c",
+        "text": "Waits for both to complete then emits the last of each"
+      },
+      {
+        "id": "d",
+        "text": "Mirrors a$ because it was listed first"
+      }
+    ],
+    "answer": "a",
+    "explanation": "race picks the first source to emit (b$) as the winner, mirrors it, and cancels the losers."
+  },
+  {
+    "id": "combining-joining-11",
+    "topic": "combining-joining",
+    "lesson": "joining-stream-pitfalls",
+    "type": "multiple-choice",
+    "prompt": "Which operators require their sources to COMPLETE to behave correctly? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "text": "forkJoin — needs every source to complete to emit at all"
+      },
+      {
+        "id": "b",
+        "text": "concat — needs each source to complete before the next starts"
+      },
+      {
+        "id": "c",
+        "text": "merge — emits values as they arrive regardless of completion"
+      },
+      {
+        "id": "d",
+        "text": "race — needs all sources to complete before choosing a winner"
+      }
+    ],
+    "answer": [
+      "a",
+      "b"
+    ],
+    "explanation": "forkJoin waits for all completions; concat depends on each source completing to advance. merge emits immediately and race decides on the first emission — neither needs completion to produce values."
+  },
+  {
+    "id": "combining-joining-12",
+    "topic": "combining-joining",
+    "lesson": "pipeable-with-operators",
+    "type": "match-pair",
+    "prompt": "Match each joining operator to its behaviour.",
+    "pairs": [
+      {
+        "left": "merge",
+        "right": "Interleave values as they arrive"
+      },
+      {
+        "left": "concat",
+        "right": "Run sources one after another, in order"
+      },
+      {
+        "left": "zip",
+        "right": "Pair values by index into tuples"
+      },
+      {
+        "left": "race",
+        "right": "Mirror the first source to emit"
+      }
+    ],
+    "explanation": "merge interleaves, concat sequences, zip pairs positionally, and race picks the first responder."
+  },
+  {
+    "id": "subjects-multicasting-01",
+    "topic": "subjects-multicasting",
+    "lesson": "what-is-a-subject",
+    "type": "single-choice",
+    "prompt": "Why is a Subject both an Observable and an Observer?",
+    "options": [
+      {
+        "id": "a",
+        "text": "You can subscribe to it, and you can call next/error/complete on it to push values to all subscribers"
+      },
+      {
+        "id": "b",
+        "text": "It converts Promises into Observables automatically"
+      },
+      {
+        "id": "c",
+        "text": "It can only be subscribed to, never emitted to"
+      },
+      {
+        "id": "d",
+        "text": "It runs a fresh producer for each subscriber"
+      }
+    ],
+    "answer": "a",
+    "explanation": "A Subject is subscribable (Observable) and has next/error/complete (Observer). Pushed values multicast to every current subscriber; there is no per-subscriber producer."
+  },
+  {
+    "id": "subjects-multicasting-02",
+    "topic": "subjects-multicasting",
+    "lesson": "behavior-subject",
+    "type": "single-choice",
+    "prompt": "A subscriber joins a plain `Subject` AFTER two values were emitted. What does it receive?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Nothing from before — only values emitted after it subscribed"
+      },
+      {
+        "id": "b",
+        "text": "Both earlier values, replayed"
+      },
+      {
+        "id": "c",
+        "text": "Only the most recent earlier value"
+      },
+      {
+        "id": "d",
+        "text": "An error, because it missed values"
+      }
+    ],
+    "answer": "a",
+    "explanation": "A plain Subject has no memory. Late subscribers only see future emissions. Use BehaviorSubject or ReplaySubject to give late subscribers past values."
+  },
+  {
+    "id": "subjects-multicasting-03",
+    "topic": "subjects-multicasting",
+    "lesson": "replay-subject",
+    "type": "single-choice",
+    "prompt": "Which Subject type requires an initial value and immediately gives new subscribers the current value?",
+    "options": [
+      {
+        "id": "a",
+        "text": "BehaviorSubject"
+      },
+      {
+        "id": "b",
+        "text": "Subject"
+      },
+      {
+        "id": "c",
+        "text": "AsyncSubject"
+      },
+      {
+        "id": "d",
+        "text": "ReplaySubject"
+      }
+    ],
+    "answer": "a",
+    "explanation": "BehaviorSubject(initial) always holds a current value, replays it on subscribe, and exposes it via .value."
+  },
+  {
+    "id": "subjects-multicasting-04",
+    "topic": "subjects-multicasting",
+    "lesson": "async-subject",
+    "type": "single-choice",
+    "prompt": "When does an `AsyncSubject` emit a value to its subscribers?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Only when it completes — and only its final value"
+      },
+      {
+        "id": "b",
+        "text": "On every next call, like a plain Subject"
+      },
+      {
+        "id": "c",
+        "text": "Immediately on subscribe, using an initial value"
+      },
+      {
+        "id": "d",
+        "text": "It replays the last two values"
+      }
+    ],
+    "answer": "a",
+    "explanation": "AsyncSubject stays silent until complete(), then delivers only the last value to all subscribers — behaving much like a Promise."
+  },
+  {
+    "id": "subjects-multicasting-05",
+    "topic": "subjects-multicasting",
+    "lesson": "protecting-subjects-with-as-observable",
+    "type": "fill-blank",
+    "prompt": "To hand consumers a read-only view of a Subject (so they cannot call next on it), expose `subject.____________`. Type the method call.",
+    "answer": [
+      "asObservable()",
+      "asObservable"
+    ],
+    "explanation": "subject.asObservable() returns an Observable that forwards the Subject's emissions but hides next/error/complete, protecting the stream from outside pushes."
+  },
+  {
+    "id": "subjects-multicasting-06",
+    "topic": "subjects-multicasting",
+    "lesson": "choosing-a-subject-variant",
+    "type": "match-pair",
+    "prompt": "Match each Subject type to what a NEW subscriber receives.",
+    "pairs": [
+      {
+        "left": "Subject",
+        "right": "Only values emitted after it subscribes"
+      },
+      {
+        "left": "BehaviorSubject",
+        "right": "The current value immediately, then future values"
+      },
+      {
+        "left": "ReplaySubject(2)",
+        "right": "The last two buffered values, then future values"
+      },
+      {
+        "left": "AsyncSubject",
+        "right": "Only the final value, once the subject completes"
+      }
+    ],
+    "explanation": "Subject has no memory; BehaviorSubject replays the current value; ReplaySubject(n) replays the last n; AsyncSubject emits just the final value on completion."
+  },
+  {
+    "id": "subjects-multicasting-07",
+    "topic": "subjects-multicasting",
+    "lesson": "cold-vs-hot-observables",
+    "type": "single-choice",
+    "prompt": "What distinguishes a hot (multicast) Observable from a cold (unicast) one?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A hot Observable shares one execution among all subscribers; a cold one runs the producer per subscriber"
+      },
+      {
+        "id": "b",
+        "text": "A hot Observable emits synchronously; a cold one emits asynchronously"
+      },
+      {
+        "id": "c",
+        "text": "A hot Observable can never complete"
+      },
+      {
+        "id": "d",
+        "text": "A cold Observable cannot be subscribed to more than once"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Multicasting shares a single source execution across subscribers (hot). Cold Observables create an independent producer for each subscription."
+  },
+  {
+    "id": "subjects-multicasting-08",
+    "topic": "subjects-multicasting",
+    "lesson": "share-operator",
+    "type": "single-choice",
+    "prompt": "Does a plain `share()` replay earlier values to a subscriber that joins later?",
+    "options": [
+      {
+        "id": "a",
+        "text": "No — share() uses a Subject with no memory; late subscribers only see future values"
+      },
+      {
+        "id": "b",
+        "text": "Yes — it always replays the entire history"
+      },
+      {
+        "id": "c",
+        "text": "Yes — it replays exactly the last value"
+      },
+      {
+        "id": "d",
+        "text": "Only if the source is infinite"
+      }
+    ],
+    "answer": "a",
+    "explanation": "share() multicasts through a plain Subject, so there is no replay. To give late subscribers past values, use shareReplay(n)."
+  },
+  {
+    "id": "subjects-multicasting-09",
+    "topic": "subjects-multicasting",
+    "lesson": "share-replay-for-caching",
+    "type": "single-choice",
+    "prompt": "Why can `interval(1000).pipe(shareReplay(1))` leak in RxJS 7?",
+    "options": [
+      {
+        "id": "a",
+        "text": "shareReplay(1) defaults to refCount:false, so it keeps the interval subscribed even after all subscribers leave"
+      },
+      {
+        "id": "b",
+        "text": "shareReplay always creates a new interval per subscriber"
+      },
+      {
+        "id": "c",
+        "text": "interval is not allowed inside shareReplay"
+      },
+      {
+        "id": "d",
+        "text": "shareReplay buffers every value forever"
+      }
+    ],
+    "answer": "a",
+    "explanation": "With refCount:false (the default), shareReplay stays subscribed to the source after subscribers unsubscribe. Since interval never completes, it runs forever — a leak. Use { bufferSize: 1, refCount: true }."
+  },
+  {
+    "id": "subjects-multicasting-10",
+    "topic": "subjects-multicasting",
+    "lesson": "share-replay-refcount-leak",
+    "type": "single-choice",
+    "prompt": "In `source$.pipe(expensive(), shareReplay(1), map(x => x))`, which operator runs per subscriber?",
+    "options": [
+      {
+        "id": "a",
+        "text": "map — operators below shareReplay run per subscriber"
+      },
+      {
+        "id": "b",
+        "text": "expensive — operators above shareReplay run per subscriber"
+      },
+      {
+        "id": "c",
+        "text": "Both expensive and map run per subscriber"
+      },
+      {
+        "id": "d",
+        "text": "Neither — everything runs once"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Everything above the multicast operator is shared (runs once); everything below it runs independently for each subscriber. So expensive() is shared and map runs per subscriber."
+  },
+  {
+    "id": "subjects-multicasting-11",
+    "topic": "subjects-multicasting",
+    "lesson": "share-placement-and-deprecated-multicast",
+    "type": "fill-blank",
+    "prompt": "Make an infinite source multicast safely: `shareReplay({ bufferSize: 1, refCount: ______ })`. Type the boolean value.",
+    "answer": [
+      "true"
+    ],
+    "explanation": "refCount: true unsubscribes from the source when the subscriber count drops to zero, so an infinite source stops when nobody is listening."
+  },
+  {
+    "id": "subjects-multicasting-12",
+    "topic": "subjects-multicasting",
+    "lesson": "cold-vs-hot-observables",
+    "type": "multiple-choice",
+    "prompt": "Which statements are correct? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "text": "shareReplay(1) is fine for a completing HTTP source"
+      },
+      {
+        "id": "b",
+        "text": "multicast, publish, and refCount are deprecated in RxJS 7"
+      },
+      {
+        "id": "c",
+        "text": "share() is reference-counted by default"
+      },
+      {
+        "id": "d",
+        "text": "share() replays the last value to late subscribers"
+      }
+    ],
+    "answer": [
+      "a",
+      "b",
+      "c"
+    ],
+    "explanation": "shareReplay(1) safely caches completing sources; the publish/multicast/refCount family is deprecated in favor of share/shareReplay; share() is refCounted by default and has NO replay."
+  },
+  {
+    "id": "errors-cleanup-01",
+    "topic": "errors-cleanup",
+    "lesson": "errors-are-terminal",
+    "type": "single-choice",
+    "prompt": "What happens to a stream when one of its operator callbacks throws?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The stream emits a terminal error and stops — no further next or complete"
+      },
+      {
+        "id": "b",
+        "text": "The value is skipped and the stream continues"
+      },
+      {
+        "id": "c",
+        "text": "The error is logged but ignored"
+      },
+      {
+        "id": "d",
+        "text": "The stream restarts automatically"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Errors are terminal. The stream sends an error notification, stops, and tears down. Recovery requires catchError or retry."
+  },
+  {
+    "id": "errors-cleanup-02",
+    "topic": "errors-cleanup",
+    "lesson": "catch-error-recovery",
+    "type": "single-choice",
+    "prompt": "What must a `catchError` handler return?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A new Observable — e.g., of(fallback), EMPTY, or throwError(() => err)"
+      },
+      {
+        "id": "b",
+        "text": "A plain value to emit"
+      },
+      {
+        "id": "c",
+        "text": "Nothing; it just logs the error"
+      },
+      {
+        "id": "d",
+        "text": "A Promise only"
+      }
+    ],
+    "answer": "a",
+    "explanation": "catchError replaces the errored stream with the Observable you return: of(x) to recover, EMPTY to swallow, or throwError to rethrow."
+  },
+  {
+    "id": "errors-cleanup-03",
+    "topic": "errors-cleanup",
+    "lesson": "retry-and-backoff",
+    "type": "single-choice",
+    "prompt": "In a search pipeline, why put `catchError` INSIDE the `switchMap` rather than after it?",
+    "options": [
+      {
+        "id": "a",
+        "text": "So a single failed request is recovered without killing the outer search stream"
+      },
+      {
+        "id": "b",
+        "text": "Because catchError cannot appear at the top level of a pipe"
+      },
+      {
+        "id": "c",
+        "text": "To make requests run in parallel"
+      },
+      {
+        "id": "d",
+        "text": "It makes no difference where it goes"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Catching inside the inner Observable isolates the failure to that request. Outside the switchMap, the first error terminates the whole outer stream, so the search box stops responding."
+  },
+  {
+    "id": "errors-cleanup-04",
+    "topic": "errors-cleanup",
+    "lesson": "catching-errors-inside-switch-map",
+    "type": "single-choice",
+    "prompt": "What does `retry(2)` do on an erroring source?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Resubscribes to the source up to 2 more times (3 attempts total) before forwarding the error"
+      },
+      {
+        "id": "b",
+        "text": "Delays the error by 2 seconds"
+      },
+      {
+        "id": "c",
+        "text": "Emits the last value twice"
+      },
+      {
+        "id": "d",
+        "text": "Ignores the error permanently"
+      }
+    ],
+    "answer": "a",
+    "explanation": "retry(n) resubscribes to the (cold) source on error up to n times. Because it re-runs the producer, it re-fires side effects like HTTP requests."
+  },
+  {
+    "id": "errors-cleanup-05",
+    "topic": "errors-cleanup",
+    "lesson": "error-handling-pitfalls",
+    "type": "fill-blank",
+    "prompt": "This retry operator is deprecated in RxJS 7.8 in favor of `retry({ delay })`. Type its name.",
+    "answer": [
+      "retryWhen"
+    ],
+    "explanation": "retryWhen is deprecated. Use the config form retry({ count, delay }) with a notifier for custom/backoff retry timing."
+  },
+  {
+    "id": "errors-cleanup-06",
+    "topic": "errors-cleanup",
+    "lesson": "errors-are-terminal",
+    "type": "multiple-choice",
+    "prompt": "Which are sound error-handling practices? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "text": "Retry with a max count and backoff for transient failures"
+      },
+      {
+        "id": "b",
+        "text": "Only retry idempotent operations"
+      },
+      {
+        "id": "c",
+        "text": "Return of(fallback) or EMPTY from catchError to keep a stream alive"
+      },
+      {
+        "id": "d",
+        "text": "Retry every POST request infinitely by default"
+      }
+    ],
+    "answer": [
+      "a",
+      "b",
+      "c"
+    ],
+    "explanation": "Bounded retries with backoff, retrying only idempotent operations, and graceful fallbacks are all good. Infinite retries on non-idempotent writes can cause duplicate side effects."
+  },
+  {
+    "id": "errors-cleanup-07",
+    "topic": "errors-cleanup",
+    "lesson": "take-until-notifier",
+    "type": "single-choice",
+    "prompt": "What does `source$.pipe(takeUntil(notifier$))` do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Mirrors the source until notifier$ emits its first value, then completes the source"
+      },
+      {
+        "id": "b",
+        "text": "Emits only the values that notifier$ also emits"
+      },
+      {
+        "id": "c",
+        "text": "Waits for notifier$ to complete before starting the source"
+      },
+      {
+        "id": "d",
+        "text": "Retries the source each time notifier$ emits"
+      }
+    ],
+    "answer": "a",
+    "explanation": "takeUntil completes (and unsubscribes) the source the moment the notifier emits — a declarative stop signal."
+  },
+  {
+    "id": "errors-cleanup-08",
+    "topic": "errors-cleanup",
+    "lesson": "finalize-guaranteed-cleanup",
+    "type": "single-choice",
+    "prompt": "On which occasions does `finalize` run its callback?",
+    "options": [
+      {
+        "id": "a",
+        "text": "On complete, error, AND unsubscribe"
+      },
+      {
+        "id": "b",
+        "text": "Only on complete"
+      },
+      {
+        "id": "c",
+        "text": "Only on error"
+      },
+      {
+        "id": "d",
+        "text": "Only when the source emits its first value"
+      }
+    ],
+    "answer": "a",
+    "explanation": "finalize is the RxJS 'finally' — it runs exactly once on every teardown path: completion, error, or unsubscription. That's why it's ideal for hiding spinners."
+  },
+  {
+    "id": "errors-cleanup-09",
+    "topic": "errors-cleanup",
+    "lesson": "timeout-operator",
+    "type": "single-choice",
+    "prompt": "Why is `takeUntil` usually placed LAST in a pipe?",
+    "options": [
+      {
+        "id": "a",
+        "text": "So it governs the whole chain's teardown; operators after it could keep inner subscriptions alive and leak"
+      },
+      {
+        "id": "b",
+        "text": "Because it must come before any map or filter"
+      },
+      {
+        "id": "c",
+        "text": "Because it only works on the raw source"
+      },
+      {
+        "id": "d",
+        "text": "Placement has no effect on behaviour"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Operators like mergeMap or combineLatest placed after takeUntil can retain inner subscriptions past the notifier. Making takeUntil last ensures the entire pipeline tears down."
+  },
+  {
+    "id": "errors-cleanup-10",
+    "topic": "errors-cleanup",
+    "lesson": "default-if-empty-and-throw-if-empty",
+    "type": "single-choice",
+    "prompt": "In RxJS 7 `timeout`, what does the `each` option control?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The maximum allowed time between consecutive emissions"
+      },
+      {
+        "id": "b",
+        "text": "The time allowed for the first emission only"
+      },
+      {
+        "id": "c",
+        "text": "The total lifetime of the subscription"
+      },
+      {
+        "id": "d",
+        "text": "The number of retries before timing out"
+      }
+    ],
+    "answer": "a",
+    "explanation": "`each` sets the deadline between emissions; `first` sets the deadline for the first emission. Provide `with` to fall back instead of erroring with TimeoutError."
+  },
+  {
+    "id": "errors-cleanup-11",
+    "topic": "errors-cleanup",
+    "lesson": "why-take-until-goes-last",
+    "type": "fill-blank",
+    "prompt": "To emit a value when a source completes WITHOUT emitting anything, use `______________(fallbackValue)`. Type the operator name.",
+    "answer": [
+      "defaultIfEmpty"
+    ],
+    "explanation": "defaultIfEmpty(value) emits `value` if the source produced nothing before completing, so downstream always gets something."
+  },
+  {
+    "id": "errors-cleanup-12",
+    "topic": "errors-cleanup",
+    "lesson": "take-until-notifier",
+    "type": "single-choice",
+    "prompt": "What is the purpose of a shared `destroy$` Subject used with `takeUntil`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Calling destroy$.next() once tears down every subscription that piped takeUntil(destroy$)"
+      },
+      {
+        "id": "b",
+        "text": "It replays the last value to new subscribers"
+      },
+      {
+        "id": "c",
+        "text": "It retries all failed streams"
+      },
+      {
+        "id": "d",
+        "text": "It converts cold Observables to hot ones"
+      }
+    ],
+    "answer": "a",
+    "explanation": "The takeUntil(destroy$) lifecycle pattern lets a single destroy$.next() complete all long-lived subscriptions at once — the standard component/service cleanup approach."
+  },
+  {
+    "id": "schedulers-testing-01",
+    "topic": "schedulers-testing",
+    "lesson": "what-is-a-scheduler",
+    "type": "single-choice",
+    "prompt": "By default (no scheduler, no time operator), how does `of(1, 2, 3)` emit?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Synchronously — it emits immediately and blocks"
+      },
+      {
+        "id": "b",
+        "text": "Asynchronously on the next macrotask"
+      },
+      {
+        "id": "c",
+        "text": "Asynchronously on the microtask queue"
+      },
+      {
+        "id": "d",
+        "text": "Once per animation frame"
+      }
+    ],
+    "answer": "a",
+    "explanation": "RxJS is synchronous by default. of/from emit immediately. Asynchrony only appears when a scheduler or time-based operator is involved."
+  },
+  {
+    "id": "schedulers-testing-02",
+    "topic": "schedulers-testing",
+    "lesson": "built-in-schedulers",
+    "type": "single-choice",
+    "prompt": "What is the difference between `observeOn` and `subscribeOn`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "observeOn reschedules downstream delivery of notifications; subscribeOn reschedules when the subscription (producer start) runs"
+      },
+      {
+        "id": "b",
+        "text": "They are identical"
+      },
+      {
+        "id": "c",
+        "text": "observeOn starts the producer; subscribeOn delivers values"
+      },
+      {
+        "id": "d",
+        "text": "observeOn only works in tests"
+      }
+    ],
+    "answer": "a",
+    "explanation": "observeOn moves each notification's delivery onto a scheduler from its position downstream. subscribeOn schedules the whole subscription (the producer start), applied once wherever it sits."
+  },
+  {
+    "id": "schedulers-testing-03",
+    "topic": "schedulers-testing",
+    "lesson": "observe-on-vs-subscribe-on",
+    "type": "single-choice",
+    "prompt": "Which scheduler schedules work on the microtask queue, running before timers and rendering?",
+    "options": [
+      {
+        "id": "a",
+        "text": "asapScheduler"
+      },
+      {
+        "id": "b",
+        "text": "asyncScheduler"
+      },
+      {
+        "id": "c",
+        "text": "animationFrameScheduler"
+      },
+      {
+        "id": "d",
+        "text": "queueScheduler"
+      }
+    ],
+    "answer": "a",
+    "explanation": "asapScheduler uses the Promise/microtask queue. asyncScheduler uses macrotasks (setTimeout-style)."
+  },
+  {
+    "id": "schedulers-testing-04",
+    "topic": "schedulers-testing",
+    "lesson": "scheduled-creation-function",
+    "type": "single-choice",
+    "prompt": "Which scheduler is best for driving an animation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "animationFrameScheduler — it aligns emissions with requestAnimationFrame"
+      },
+      {
+        "id": "b",
+        "text": "queueScheduler — synchronous is smoothest"
+      },
+      {
+        "id": "c",
+        "text": "asapScheduler — microtasks paint fastest"
+      },
+      {
+        "id": "d",
+        "text": "asyncScheduler with a 1ms interval"
+      }
+    ],
+    "answer": "a",
+    "explanation": "animationFrameScheduler schedules via requestAnimationFrame, so updates happen once per paint — smooth and efficient, without wasted work between frames."
+  },
+  {
+    "id": "schedulers-testing-05",
+    "topic": "schedulers-testing",
+    "lesson": "animation-frame-scheduler-in-practice",
+    "type": "fill-blank",
+    "prompt": "Passing a scheduler to of/from/range is deprecated. Type the function you use instead: `__________([1,2,3], asyncScheduler)`.",
+    "answer": [
+      "scheduled"
+    ],
+    "explanation": "scheduled(input, scheduler) is the modern way to create an Observable that emits its input on a given scheduler."
+  },
+  {
+    "id": "schedulers-testing-06",
+    "topic": "schedulers-testing",
+    "lesson": "what-is-a-scheduler",
+    "type": "match-pair",
+    "prompt": "Match each scheduler to its mechanism.",
+    "pairs": [
+      {
+        "left": "asyncScheduler",
+        "right": "Macrotask (setTimeout-style)"
+      },
+      {
+        "left": "asapScheduler",
+        "right": "Microtask (Promise queue)"
+      },
+      {
+        "left": "queueScheduler",
+        "right": "Synchronous, trampolined"
+      },
+      {
+        "left": "animationFrameScheduler",
+        "right": "requestAnimationFrame"
+      }
+    ],
+    "explanation": "async = macrotask, asap = microtask, queue = synchronous with trampolining for safe recursion, animationFrame = paint-synced via rAF."
+  },
+  {
+    "id": "schedulers-testing-07",
+    "topic": "schedulers-testing",
+    "lesson": "virtual-time-and-test-scheduler",
+    "type": "single-choice",
+    "prompt": "What does the TestScheduler give you for testing time-based streams?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A controllable virtual clock so delays resolve instantly and deterministically"
+      },
+      {
+        "id": "b",
+        "text": "Faster real timers via setInterval"
+      },
+      {
+        "id": "c",
+        "text": "Automatic retries of failed assertions"
+      },
+      {
+        "id": "d",
+        "text": "A way to run Observables on a web worker"
+      }
+    ],
+    "answer": "a",
+    "explanation": "The TestScheduler runs scheduled work on virtual time, so operators like debounceTime and delay complete immediately and predictably instead of using slow, flaky real timers."
+  },
+  {
+    "id": "schedulers-testing-08",
+    "topic": "schedulers-testing",
+    "lesson": "marble-diagram-syntax",
+    "type": "single-choice",
+    "prompt": "Inside `testScheduler.run()`, how much virtual time does one frame (one marble character) represent?",
+    "options": [
+      {
+        "id": "a",
+        "text": "1 millisecond"
+      },
+      {
+        "id": "b",
+        "text": "10 milliseconds"
+      },
+      {
+        "id": "c",
+        "text": "100 milliseconds"
+      },
+      {
+        "id": "d",
+        "text": "1 second"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Within run(), 1 frame = 1 ms, and each character advances the virtual clock by one frame. Use time-progression syntax like '10ms a' for larger gaps."
+  },
+  {
+    "id": "schedulers-testing-09",
+    "topic": "schedulers-testing",
+    "lesson": "cold-hot-and-expect-observable",
+    "type": "single-choice",
+    "prompt": "In a marble diagram, what does `#` represent?",
+    "options": [
+      {
+        "id": "a",
+        "text": "An error notification"
+      },
+      {
+        "id": "b",
+        "text": "A completion"
+      },
+      {
+        "id": "c",
+        "text": "A subscription point"
+      },
+      {
+        "id": "d",
+        "text": "A grouped emission"
+      }
+    ],
+    "answer": "a",
+    "explanation": "`#` is an error, `|` is completion, `()` groups same-frame emissions, and `^` marks a hot observable's subscription point."
+  },
+  {
+    "id": "schedulers-testing-10",
+    "topic": "schedulers-testing",
+    "lesson": "testing-time-based-operators",
+    "type": "single-choice",
+    "prompt": "How do you map marble letters like `a` and `b` to real emitted values?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Pass a values object, e.g. expectObservable(x).toBe('-a-b|', { a: 1, b: 2 })"
+      },
+      {
+        "id": "b",
+        "text": "You cannot; letters always emit themselves as strings only"
+      },
+      {
+        "id": "c",
+        "text": "By naming them in the TestScheduler constructor"
+      },
+      {
+        "id": "d",
+        "text": "By using numbers instead of letters in the marble"
+      }
+    ],
+    "answer": "a",
+    "explanation": "A values map translates marble characters into real values. Without it, `a` emits the string 'a'."
+  },
+  {
+    "id": "schedulers-testing-11",
+    "topic": "schedulers-testing",
+    "lesson": "asserting-subscriptions-with-marbles",
+    "type": "fill-blank",
+    "prompt": "All marble helpers (cold, hot, expectObservable) must be used inside this TestScheduler method. Type its name (no parentheses).",
+    "answer": [
+      "run"
+    ],
+    "explanation": "testScheduler.run(callback) supplies the helpers and auto-virtualises the schedulers, so time-based operators are driven by virtual time."
+  },
+  {
+    "id": "schedulers-testing-12",
+    "topic": "schedulers-testing",
+    "lesson": "marble-testing-pitfalls",
+    "type": "single-choice",
+    "prompt": "In an `expectSubscriptions` diagram, what do `^` and `!` mean?",
+    "options": [
+      {
+        "id": "a",
+        "text": "^ marks when the source was subscribed; ! marks when it was unsubscribed"
+      },
+      {
+        "id": "b",
+        "text": "^ marks an error; ! marks a completion"
+      },
+      {
+        "id": "c",
+        "text": "^ marks the first value; ! marks the last value"
+      },
+      {
+        "id": "d",
+        "text": "They are ignored whitespace"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Subscription diagrams use ^ for the subscribe frame and ! for the unsubscribe frame — useful for verifying cancellation (e.g., switchMap unsubscribing a previous inner)."
+  },
+  {
+    "id": "custom-operators-batching-01",
+    "topic": "custom-operators-batching",
+    "lesson": "operator-function-shape",
+    "type": "single-choice",
+    "prompt": "What is a pipeable operator, at its core?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A function that takes a source Observable and returns a new Observable"
+      },
+      {
+        "id": "b",
+        "text": "A subclass of Observable"
+      },
+      {
+        "id": "c",
+        "text": "A value emitted by a Subject"
+      },
+      {
+        "id": "d",
+        "text": "A method on the Observable prototype"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Its type is OperatorFunction<T, R>: (source: Observable<T>) => Observable<R>. Anything with that shape works inside .pipe()."
+  },
+  {
+    "id": "custom-operators-batching-02",
+    "topic": "custom-operators-batching",
+    "lesson": "composing-custom-operators-with-pipe",
+    "type": "single-choice",
+    "prompt": "What is the simplest, preferred way to build a custom operator?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Compose existing operators with the standalone pipe() function"
+      },
+      {
+        "id": "b",
+        "text": "Extend the Observable class"
+      },
+      {
+        "id": "c",
+        "text": "Patch a method onto Observable.prototype"
+      },
+      {
+        "id": "d",
+        "text": "Always use the Observable constructor manually"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Most custom operators are just pipe(op1, op2, ...) wrapped in a function. Composition handles teardown and the Observable contract for you."
+  },
+  {
+    "id": "custom-operators-batching-03",
+    "topic": "custom-operators-batching",
+    "lesson": "low-level-operators-with-new-observable",
+    "type": "multiple-choice",
+    "prompt": "When writing a low-level operator with `new Observable`, what must you do? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "text": "Forward next values to the output subscriber"
+      },
+      {
+        "id": "b",
+        "text": "Forward error and complete notifications"
+      },
+      {
+        "id": "c",
+        "text": "Return a teardown that unsubscribes from the source"
+      },
+      {
+        "id": "d",
+        "text": "Avoid subscribing to the source at all"
+      }
+    ],
+    "answer": [
+      "a",
+      "b",
+      "c"
+    ],
+    "explanation": "You subscribe to the source and forward all three notification types, and you return teardown so the source subscription is released. Not subscribing would mean no values flow."
+  },
+  {
+    "id": "custom-operators-batching-04",
+    "topic": "custom-operators-batching",
+    "lesson": "custom-operator-pitfalls",
+    "type": "fill-blank",
+    "prompt": "Type the RxJS type used to annotate an operator whose input and output types are the SAME (T to T): `______________________<T>`.",
+    "answer": [
+      "MonoTypeOperatorFunction"
+    ],
+    "explanation": "MonoTypeOperatorFunction<T> is the special case of OperatorFunction<T, T> where the type is unchanged."
+  },
+  {
+    "id": "custom-operators-batching-05",
+    "topic": "custom-operators-batching",
+    "lesson": "operator-function-shape",
+    "type": "single-choice",
+    "prompt": "Why is composition (pipe) preferred over the Observable constructor for custom operators?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It is simpler and automatically forwards notifications and handles teardown"
+      },
+      {
+        "id": "b",
+        "text": "The Observable constructor is deprecated"
+      },
+      {
+        "id": "c",
+        "text": "pipe operators run faster in every case"
+      },
+      {
+        "id": "d",
+        "text": "The constructor cannot emit more than one value"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Composing existing operators means less code and fewer chances to break the contract — teardown and notification forwarding are handled for you. Reserve the constructor for genuinely custom subscription logic."
+  },
+  {
+    "id": "custom-operators-batching-06",
+    "topic": "custom-operators-batching",
+    "lesson": "composing-custom-operators-with-pipe",
+    "type": "single-choice",
+    "prompt": "How do you make a custom operator configurable, like `debounceTime(300)`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Write a function that takes parameters and returns the OperatorFunction"
+      },
+      {
+        "id": "b",
+        "text": "Set a global config variable before piping"
+      },
+      {
+        "id": "c",
+        "text": "Pass the parameter to subscribe()"
+      },
+      {
+        "id": "d",
+        "text": "Custom operators cannot take parameters"
+      }
+    ],
+    "answer": "a",
+    "explanation": "A configurable operator is a factory: `const op = (arg) => pipe(...)` returning an OperatorFunction, so call sites read like built-ins, e.g. source$.pipe(op(300))."
+  },
+  {
+    "id": "custom-operators-batching-07",
+    "topic": "custom-operators-batching",
+    "lesson": "buffer-time-count-and-buffer",
+    "type": "single-choice",
+    "prompt": "What is the key difference between buffering and windowing?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Buffering emits arrays of collected values; windowing emits child Observables (live slices)"
+      },
+      {
+        "id": "b",
+        "text": "Buffering is synchronous; windowing is asynchronous"
+      },
+      {
+        "id": "c",
+        "text": "Windowing emits arrays; buffering emits Observables"
+      },
+      {
+        "id": "d",
+        "text": "They are identical in output"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Buffer operators deliver collected values as an array. Window operators deliver an Observable per slice, so you can keep applying operators within each window before flattening."
+  },
+  {
+    "id": "custom-operators-batching-08",
+    "topic": "custom-operators-batching",
+    "lesson": "window-operators",
+    "type": "single-choice",
+    "prompt": "`from([1,2,3,4,5]).pipe(bufferCount(2))` emits which sequence?",
+    "options": [
+      {
+        "id": "a",
+        "text": "[1,2], [3,4], [5]"
+      },
+      {
+        "id": "b",
+        "text": "[1,2], [3,4]"
+      },
+      {
+        "id": "c",
+        "text": "[1,2,3,4,5]"
+      },
+      {
+        "id": "d",
+        "text": "1, 2, 3, 4, 5"
+      }
+    ],
+    "answer": "a",
+    "explanation": "bufferCount(2) emits arrays of two, and flushes the remaining partial buffer ([5]) when the source completes."
+  },
+  {
+    "id": "custom-operators-batching-09",
+    "topic": "custom-operators-batching",
+    "lesson": "buffer-vs-window",
+    "type": "single-choice",
+    "prompt": "What does `groupBy(x => x.key)` emit?",
+    "options": [
+      {
+        "id": "a",
+        "text": "GroupedObservables — one per distinct key, each with a .key property"
+      },
+      {
+        "id": "b",
+        "text": "One array per key"
+      },
+      {
+        "id": "c",
+        "text": "A single object mapping keys to arrays"
+      },
+      {
+        "id": "d",
+        "text": "The keys themselves as strings"
+      }
+    ],
+    "answer": "a",
+    "explanation": "groupBy partitions the source into GroupedObservables. Each is an Observable carrying a .key and emitting that key's values; you typically flatten and aggregate them."
+  },
+  {
+    "id": "custom-operators-batching-10",
+    "topic": "custom-operators-batching",
+    "lesson": "group-by-operator",
+    "type": "single-choice",
+    "prompt": "How do you prevent `groupBy` from leaking memory on a long stream with many distinct keys?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Provide a duration selector that closes each group after a period or condition"
+      },
+      {
+        "id": "b",
+        "text": "Wrap it in take(1)"
+      },
+      {
+        "id": "c",
+        "text": "Use switchMap instead of mergeMap"
+      },
+      {
+        "id": "d",
+        "text": "Nothing — groupBy never leaks"
+      }
+    ],
+    "answer": "a",
+    "explanation": "By default groups live as long as the source. A duration selector (e.g., { duration: () => timer(60000) }) closes idle groups so they don't accumulate."
+  },
+  {
+    "id": "custom-operators-batching-11",
+    "topic": "custom-operators-batching",
+    "lesson": "group-by-duration-and-memory-pitfall",
+    "type": "single-choice",
+    "prompt": "Why do you usually follow `groupBy` with `mergeMap` and a terminating operator like `toArray` or `reduce`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Because each group is an Observable that must be flattened and aggregated"
+      },
+      {
+        "id": "b",
+        "text": "Because groupBy emits plain values that need mapping"
+      },
+      {
+        "id": "c",
+        "text": "To convert the groups into Promises"
+      },
+      {
+        "id": "d",
+        "text": "To cancel the previous group"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Groups are Observables; mergeMap subscribes to each and a terminating operator (toArray/reduce) folds its values into a result per key."
+  },
+  {
+    "id": "custom-operators-batching-12",
+    "topic": "custom-operators-batching",
+    "lesson": "buffer-time-count-and-buffer",
+    "type": "fill-blank",
+    "prompt": "During quiet periods, `bufferTime` still emits this kind of array (one word describing an array with no elements).",
+    "answer": [
+      "empty"
+    ],
+    "explanation": "bufferTime emits an empty array for intervals with no values. Filter with `batch.length > 0` when you only want non-empty batches."
+  },
+  {
+    "id": "patterns-interop-01",
+    "topic": "patterns-interop",
+    "lesson": "what-causes-rxjs-memory-leaks",
+    "type": "single-choice",
+    "prompt": "What is the fundamental cause of an RxJS memory leak?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A subscription to a source that never completes, which is never unsubscribed"
+      },
+      {
+        "id": "b",
+        "text": "Using too many operators in a pipe"
+      },
+      {
+        "id": "c",
+        "text": "Calling map more than once"
+      },
+      {
+        "id": "d",
+        "text": "Subscribing to a completing HTTP request"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Infinite sources (interval, fromEvent, WebSockets) that are never unsubscribed keep their resources alive forever. Completing sources tear themselves down."
+  },
+  {
+    "id": "patterns-interop-02",
+    "topic": "patterns-interop",
+    "lesson": "unsubscription-strategies",
+    "type": "single-choice",
+    "prompt": "Do you need to manually unsubscribe from a stream that completes, such as a single HTTP request?",
+    "options": [
+      {
+        "id": "a",
+        "text": "No — a completing stream tears itself down automatically"
+      },
+      {
+        "id": "b",
+        "text": "Yes — every subscription must be manually unsubscribed"
+      },
+      {
+        "id": "c",
+        "text": "Only if it used map"
+      },
+      {
+        "id": "d",
+        "text": "Only in TypeScript"
+      }
+    ],
+    "answer": "a",
+    "explanation": "When a stream completes (or errors), it runs teardown automatically. Manual unsubscription discipline is only required for infinite streams."
+  },
+  {
+    "id": "patterns-interop-03",
+    "topic": "patterns-interop",
+    "lesson": "take-until-destroy-pattern",
+    "type": "single-choice",
+    "prompt": "What is the fix for a nested subscribe like `outer$.subscribe(x => inner$(x).subscribe(use))`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Flatten it with a *Map operator, e.g. outer$.pipe(switchMap(x => inner$(x)))"
+      },
+      {
+        "id": "b",
+        "text": "Add a second Subject"
+      },
+      {
+        "id": "c",
+        "text": "Wrap both subscribes in setTimeout"
+      },
+      {
+        "id": "d",
+        "text": "Call unsubscribe twice"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Nested subscribes lose cancellation/error handling and leak inner subscriptions. A flattening operator (switchMap/mergeMap/concatMap) manages the inner subscriptions properly."
+  },
+  {
+    "id": "patterns-interop-04",
+    "topic": "patterns-interop",
+    "lesson": "subscription-and-purity-anti-patterns",
+    "type": "single-choice",
+    "prompt": "In the `takeUntil(destroy$)` pattern, where should `takeUntil` be placed?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Last in the pipe, so it governs the whole chain's teardown"
+      },
+      {
+        "id": "b",
+        "text": "First, before any other operator"
+      },
+      {
+        "id": "c",
+        "text": "Immediately after the source only"
+      },
+      {
+        "id": "d",
+        "text": "It can go anywhere with no effect"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Placing takeUntil last ensures operators like mergeMap/combineLatest don't keep inner subscriptions alive past the destroy signal."
+  },
+  {
+    "id": "patterns-interop-05",
+    "topic": "patterns-interop",
+    "lesson": "what-causes-rxjs-memory-leaks",
+    "type": "fill-blank",
+    "prompt": "Side effects belong in this operator, not in map/filter callbacks. Type the operator name.",
+    "answer": [
+      "tap"
+    ],
+    "explanation": "tap is for side effects (logging, analytics, DOM writes). Keeping map/filter pure makes pipelines testable and predictable."
+  },
+  {
+    "id": "patterns-interop-06",
+    "topic": "patterns-interop",
+    "lesson": "unsubscription-strategies",
+    "type": "multiple-choice",
+    "prompt": "Which are valid strategies for managing subscription lifetime? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "text": "Auto-completing operators like take(1), first(), takeWhile"
+      },
+      {
+        "id": "b",
+        "text": "takeUntil(destroy$) fired on teardown"
+      },
+      {
+        "id": "c",
+        "text": "Letting the framework subscribe/unsubscribe (e.g., Angular async pipe)"
+      },
+      {
+        "id": "d",
+        "text": "Ignoring cleanup because the garbage collector handles active subscriptions"
+      }
+    ],
+    "answer": [
+      "a",
+      "b",
+      "c"
+    ],
+    "explanation": "Bounded auto-completion, takeUntil, and framework-managed binding are all sound. The GC cannot reclaim an active subscription that still holds references — you must complete or unsubscribe it."
+  },
+  {
+    "id": "patterns-interop-07",
+    "topic": "patterns-interop",
+    "lesson": "typeahead-search-pattern",
+    "type": "single-choice",
+    "prompt": "Why is `exhaustMap` (or `concatMap`) preferred over `switchMap` for polling on a timer?",
+    "options": [
+      {
+        "id": "a",
+        "text": "switchMap would cancel the in-flight request on every tick, potentially starving slow requests"
+      },
+      {
+        "id": "b",
+        "text": "switchMap cannot be used with timer"
+      },
+      {
+        "id": "c",
+        "text": "exhaustMap runs requests in parallel for speed"
+      },
+      {
+        "id": "d",
+        "text": "concatMap makes requests faster"
+      }
+    ],
+    "answer": "a",
+    "explanation": "On each tick switchMap cancels the previous request. If requests are slower than the interval, none may ever finish. exhaustMap skips ticks while busy; concatMap queues them."
+  },
+  {
+    "id": "patterns-interop-08",
+    "topic": "patterns-interop",
+    "lesson": "non-overlapping-polling-pattern",
+    "type": "single-choice",
+    "prompt": "Which function replaces the deprecated `toPromise()` to get the FIRST value of an Observable as a Promise?",
+    "options": [
+      {
+        "id": "a",
+        "text": "firstValueFrom"
+      },
+      {
+        "id": "b",
+        "text": "toFirstPromise"
+      },
+      {
+        "id": "c",
+        "text": "firstAsPromise"
+      },
+      {
+        "id": "d",
+        "text": "await Observable"
+      }
+    ],
+    "answer": "a",
+    "explanation": "firstValueFrom(obs) resolves with the first emitted value (then unsubscribes). lastValueFrom(obs) resolves with the last value on completion. toPromise() is removed in RxJS 8."
+  },
+  {
+    "id": "patterns-interop-09",
+    "topic": "patterns-interop",
+    "lesson": "first-value-from-and-last-value-from",
+    "type": "single-choice",
+    "prompt": "What happens if you call `firstValueFrom` on a stream that completes without emitting any value (and no default)?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The Promise rejects with an EmptyError"
+      },
+      {
+        "id": "b",
+        "text": "The Promise resolves with undefined"
+      },
+      {
+        "id": "c",
+        "text": "It waits forever"
+      },
+      {
+        "id": "d",
+        "text": "It resolves with null"
+      }
+    ],
+    "answer": "a",
+    "explanation": "Both firstValueFrom and lastValueFrom reject with EmptyError on an empty stream. Pass { defaultValue } to resolve with a fallback instead."
+  },
+  {
+    "id": "patterns-interop-10",
+    "topic": "patterns-interop",
+    "lesson": "from-fetch-and-abort",
+    "type": "single-choice",
+    "prompt": "Why can't you use `lastValueFrom` on an infinite stream like `interval(1000)`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It resolves only on completion, and an infinite stream never completes"
+      },
+      {
+        "id": "b",
+        "text": "interval is not a valid Observable"
+      },
+      {
+        "id": "c",
+        "text": "lastValueFrom only works with of()"
+      },
+      {
+        "id": "d",
+        "text": "It would resolve with the first value instead"
+      }
+    ],
+    "answer": "a",
+    "explanation": "lastValueFrom waits for completion to know the last value. An infinite stream never completes, so the Promise never resolves. Use firstValueFrom or bound the stream."
+  },
+  {
+    "id": "patterns-interop-11",
+    "topic": "patterns-interop",
+    "lesson": "promise-interop-pitfalls",
+    "type": "single-choice",
+    "prompt": "What advantage does `fromFetch` have over `from(fetch(url))` inside a switchMap?",
+    "options": [
+      {
+        "id": "a",
+        "text": "fromFetch aborts the underlying request via AbortController when unsubscribed, so switchMap truly cancels it"
+      },
+      {
+        "id": "b",
+        "text": "fromFetch retries automatically"
+      },
+      {
+        "id": "c",
+        "text": "fromFetch caches all responses"
+      },
+      {
+        "id": "d",
+        "text": "There is no difference"
+      }
+    ],
+    "answer": "a",
+    "explanation": "A plain fetch Promise can't be cancelled, so switchMap only ignores its result. fromFetch wires an AbortController and aborts the network call on unsubscribe."
+  },
+  {
+    "id": "patterns-interop-12",
+    "topic": "patterns-interop",
+    "lesson": "typeahead-search-pattern",
+    "type": "multiple-choice",
+    "prompt": "Which describe correct real-world RxJS patterns? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "text": "Typeahead: map → debounceTime → distinctUntilChanged → switchMap(request with inner catchError)"
+      },
+      {
+        "id": "b",
+        "text": "Polling: timer(0, period) → exhaustMap(request) → takeUntil(stop$)"
+      },
+      {
+        "id": "c",
+        "text": "Caching a completing request with shareReplay(1)"
+      },
+      {
+        "id": "d",
+        "text": "Using toPromise() to await an Observable"
+      }
+    ],
+    "answer": [
+      "a",
+      "b",
+      "c"
+    ],
+    "explanation": "Typeahead uses switchMap with inner error handling, polling uses exhaustMap + takeUntil, and shareReplay(1) caches completing sources. toPromise() is deprecated/removed — use firstValueFrom/lastValueFrom."
+  }
+]

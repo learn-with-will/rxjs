@@ -1,0 +1,42 @@
+{
+  "$schema": "https://raw.githubusercontent.com/learn-with-will/course-shell/main/course.schema.json",
+  "id": "rxjs",
+  "name": "RxJS Learn",
+  "subject": "RxJS",
+  "description": "Learn RxJS 7+ in five-minute bites: short lessons, quizzes and progress tracking.",
+  "brand": {
+    "color": "#db2777",
+    "scale": {
+      "50": "#fdf2f8",
+      "100": "#fce7f3",
+      "200": "#fbcfe8",
+      "300": "#f9a8d4",
+      "400": "#f472b6",
+      "500": "#ec4899",
+      "600": "#db2777",
+      "700": "#be185d",
+      "800": "#9d174d",
+      "900": "#831843",
+      "950": "#500724"
+    },
+    "gradient": ["#f472b6", "#e6007a", "#8b5cf6"],
+    "gradientDark": ["#f9a8d4", "#f472b6", "#c4b5fd"]
+  },
+  "home": {
+    "badge": "Updated for RxJS 7+",
+    "headline": ["Learn RxJS one ", "five‑minute bite", " at a time."],
+    "searchExamples": ["switchMap", "combineLatest", "shareReplay"],
+    "featuredLesson": "what-is-an-observable",
+    "featuredCode": {
+      "lang": "typescript",
+      "code": "import { fromEvent, map, debounceTime } from 'rxjs';\n\nfromEvent(input, 'input').pipe(\n  map((e) => (e.target as HTMLInputElement).value),\n  debounceTime(300),\n).subscribe(console.log);"
+    },
+    "quizPreview": {
+      "topic": "Observables & Subscriptions",
+      "prompt": "When does the producer function inside an Observable run?",
+      "options": ["When the Observable is created", "Only when something calls subscribe()", "On the next microtask tick"],
+      "selected": 1
+    }
+  },
+  "codeLanguages": ["typescript", "tsx", "jsx", "bash", "json", "css"]
+}

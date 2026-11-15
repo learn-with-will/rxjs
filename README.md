@@ -1,146 +1,60 @@
-# RxJS Learning Portal
+# RxJS Learn
 
-A **frontend-only** RxJS learning platform: read Markdown lessons, take quizzes,
-and track your progress — all in the browser, no backend required. The course
-takes you from your first Observable to schedulers, multicasting, marble testing,
-and production streaming patterns.
+The content of the RxJS course at <https://learn-with-will.github.io/rxjs/>: 119 short lessons
+("bites") in 12 topics, each teaching one idea in 3–5 minutes, plus a bank of 138 quiz
+questions. It covers RxJS 7.8+ with TypeScript: Observables and subscriptions, creation
+operators, `pipe()` and transforming values, filtering and limiting streams, rate-limiting time,
+higher-order flattening (`mergeMap`, `concatMap`, `switchMap`, `exhaustMap`), combining and
+joining streams, Subjects and multicasting (`share`, `shareReplay`), error handling and cleanup,
+schedulers and marble testing with `TestScheduler`, custom operators and batching (`buffer*`,
+`window*`, `groupBy`), and real-world patterns and Promise interop.
 
-The portal shell is built with React 19, Vite, TypeScript, React Router,
-Tailwind CSS v4, marked, and PrismJS. The **content** it renders is a complete
-RxJS 7+ curriculum (all code targets RxJS 7 / `rxjs@7`, the pipeable-operator era).
-
-## Features
-
-- **Roadmap** of lessons grouped by level (beginner / intermediate / advanced).
-- **Lesson reader** with Markdown rendering, Prism syntax highlighting, a table of
-  contents, previous/next navigation, mark-complete, and bookmarking.
-- **Quizzes** supporting five question types: single-choice, multiple-choice,
-  fill-blank, ordering, and match-pair — with grading, review mode, and explanations.
-- **Dashboard** with completion stats, per-level progress, and quiz history.
-- **Search** and **bookmarks** pages.
-- **Dark mode** with persistence, and a responsive layout.
-- All progress persists to `localStorage`.
-
-## Run it
-
-```bash
-npm install
-npm run dev        # dev server (Vite) at http://localhost:5173
-npm run build      # production build into dist/
-npm run preview    # serve the production build locally
-```
-
-## Project structure
+This repository holds **content only**. The site itself (lesson reader, quizzes, progress,
+optional sign-in) is the shared [course shell](https://github.com/learn-with-will/course-shell),
+which every course uses.
 
 ```text
-src/
-├── core/
-│   ├── models/        # Lesson, Quiz, Progress types + constants
-│   ├── services/      # lesson/quiz loading, search, grading, asset URLs
-│   ├── context/       # Course, Progress, Theme providers (React state)
-│   └── hooks/         # useDocumentTitle, prism setup
-├── shared/components/ # Navbar, Sidebar, Footer, LessonCard, TableOfContents,
-│                      # LessonNavigation, LessonContent, QuizQuestion,
-│                      # QuizProgress, QuizResult, RxjsLogo, ScrollManager
-├── features/          # home, roadmap, lesson, quiz, dashboard, search, bookmarks
-├── App.tsx            # layout + lazy-loaded routes
-└── main.tsx           # providers + bootstrap
-
-public/
-├── content/           # lesson Markdown + course-manifest.json
-└── quizzes/           # one <lessonId>.json per quiz
+course.json              name, brand colours, home page copy, code languages
+content/topics.json      the 12 topics
+content/lessons/*.md     one bite per file
+content/legacy.json      old long-lesson URLs → the bites that replaced them
+quiz/questions.json      the question bank
+prompts/                 the authoring contract and study pathway the lessons came from
 ```
 
-## Adding content — no code changes required
+## Working on the course
 
-### Add a lesson
+Clone the shell next to this folder, then run its commands with this folder as the argument:
 
-1. Create a Markdown file under `public/content/<level>/`, e.g.
-   `public/content/beginner/what-is-rxjs.md`. Start it with YAML front-matter:
-
-   ```md
-   ---
-   id: lesson-01
-   slug: what-is-rxjs
-   title: What Is RxJS? Observables and Reactive Thinking
-   level: beginner
-   order: 1
-   duration: 22
-   tags: [rxjs, observable, reactive, streams]
-   ---
-
-   # Learning Objectives
-   ...
-   ```
-
-2. Add a matching entry to `public/content/course-manifest.json`:
-
-   ```json
-   {
-     "id": "lesson-01",
-     "slug": "what-is-rxjs",
-     "title": "What Is RxJS? Observables and Reactive Thinking",
-     "level": "beginner",
-     "order": 1,
-     "duration": 22,
-     "file": "beginner/what-is-rxjs.md",
-     "summary": "What an Observable is, how it differs from a Promise, and why RxJS models everything as a stream of values over time.",
-     "tags": ["rxjs", "observable", "reactive", "streams"]
-   }
-   ```
-
-The lesson now appears in the roadmap, sidebar, search, and home — automatically.
-
-> **Flash cards:** a heading titled `Flash Cards` followed by a list (or paragraphs)
-> of `Q: … / A: …` pairs is auto-transformed into interactive flip cards.
-
-### Add a quiz
-
-Create `public/quizzes/<lessonId>.json` (e.g. `public/quizzes/lesson-01.json`):
-
-```json
-{
-  "id": "quiz-lesson-01",
-  "lessonId": "lesson-01",
-  "title": "What Is RxJS?",
-  "passingScore": 60,
-  "questions": [
-    { "id": "q1", "type": "single-choice", "prompt": "…",
-      "options": [{ "id": "a", "text": "…" }], "answer": "a",
-      "explanation": "…" }
-  ]
-}
+```bash
+git clone https://github.com/learn-with-will/course-shell.git ../course-shell
+cd ../course-shell
+npm ci
+npm run dev -- ../rxjs                 # live preview at http://localhost:4200
+npm run validate -- ../rxjs --strict   # the check the deploy runs
 ```
 
-Supported question `type` values: `single-choice`, `multiple-choice`,
-`fill-blank`, `ordering`, `match-pair`.
+Node 22.18 or later is required.
 
-## Tech stack
+## Adding a lesson
 
-React 19 · Vite · TypeScript · React Router · Tailwind CSS v4 · marked · PrismJS ·
-localStorage. Course content targets **RxJS 7+**.
+1. Create `content/lessons/<slug>.md` with front-matter (`slug`, `title`, `topic`, `kind`,
+   `summary`, `tags`, `related`) and the standard sections.
+2. Add questions for it to `quiz/questions.json` with `"topic"` and `"lesson"`.
+3. Run `npm run validate -- ../rxjs --strict` from the shell folder.
 
-## Deploying to GitHub Pages
+The rules (length limits, which visual fits which kind of information, the diagram syntax) are
+in the shell's [CONTENT_GUIDE.md](https://github.com/learn-with-will/course-shell/blob/main/CONTENT_GUIDE.md).
 
-This repo ships a GitHub Actions workflow ([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml))
-that builds the site and publishes it to GitHub Pages on every push to `main`.
+## Accuracy
 
-One-time setup:
+Facts come from the official RxJS documentation (<https://rxjs.dev>) and follow the authoring
+contract in `prompts/lesson-authoring-prompt.md`: an accurate bite with less content beats a
+fuller one with a single falsehood.
 
-1. In the repo on GitHub, go to **Settings → Pages** and set **Source** to
-   **GitHub Actions**.
-2. Push to `main` (or run the workflow manually from the **Actions** tab).
+## Deployment
 
-The site is then served at `https://<user>.github.io/<repo>/`. How it works:
-
-- The workflow builds with `BASE_PATH=/<repo>/`, which sets Vite's `base` so all
-  assets and content resolve under the sub-path. `<BrowserRouter basename>` is
-  aligned to the same value, so client-side routes work too.
-- A `postbuild` step copies `dist/index.html` to `dist/404.html`, giving the SPA a
-  fallback so deep links and refreshes (e.g. `/<repo>/lesson/…`) load correctly.
-
-> If you deploy to a **user/organization site** (`<user>.github.io`) instead of a
-> project site, the base path is `/` — set `BASE_PATH: /` in the workflow.
-
-For other static hosts (Netlify, Vercel), the `dist/` output works as-is; just
-configure an SPA fallback to `index.html`.
+Pushing to `main` runs `.github/workflows/deploy.yml`, which calls the shell's reusable
+workflow: it validates this course in strict mode, builds it with the latest shell and
+publishes it to GitHub Pages. To pick up a shell change without a content change, run the
+workflow by hand from the Actions tab.
